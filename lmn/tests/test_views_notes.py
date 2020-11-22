@@ -6,8 +6,6 @@ from django.test import override_settings
 from django.contrib.auth.models import User
 
 
-
-
 class TestDeleteNotes(TestCase):
 
     fixtures = ['test_notes', 'test_users']
