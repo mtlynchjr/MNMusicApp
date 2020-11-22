@@ -21,6 +21,6 @@ class TestDeleteNotes(TestCase):
 
     def test_delete_someone_else_notes_not_auth(self):
         response = self.client.post(reverse('delete_notes',  args=(5,)), follow=True)
-        self.assertEqual(403, response.status_code)
+        self.assertEqual(403, response.status_code)# Display status code 403 if primary key is not 5
         note_5 = Note.objects.get(pk=5)
         self.assertIsNotNone(note_5)    # note still in database
