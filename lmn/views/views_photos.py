@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from ..models import Show
+from ..models import Photo
 from ..forms import PhotosForm
 
 from django.contrib.auth.decorators import login_required
@@ -10,11 +10,11 @@ from django.contrib.auth import authenticate, login, logout
 @login_required
 def add_photo(request):
     if request.method == 'POST':
-        # Need POST and FILES so photo image file is saved to database.
+        # Needs FILES in addition to POST so photo image file is saved.
         form = PhotosForm(request.POST , request.FILES)
         photo = form.save(commit=False) # Do I need an "instance=x" here?
         photo.user = request.user
-        # If valid, saves photo file and retuns user to "homepage" to view updated page.
+        # If valid, saves photo file and returns user to updated page.
         if form.is_valid():
             photo.save()
             return redirect('homepage')
