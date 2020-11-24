@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ValidationError, MultiWidget
 
-# Create date input class. Import MultiWidget (above).
+# Ensures accurate date input in date fields.
 class DateInput(forms.DateInput):
     input_type='date'
 
@@ -26,9 +26,10 @@ class NewNoteForm(forms.ModelForm):
 class PhotosForm(forms.ModelForm):
     class Meta:
         model = Photo # Photo class from models.py
-        fields = ('user' , 'artist' , 'venue' , 'show_date' , 'photo') # Fields from models.py Photo class
+        fields = ('user' , 'artist' , 'venue' , 'show_date' , 'photo') # Fields to appear on HTML
+        # Widget below uses DateInput class above to ensure date entered is a valid.
         widgets = {
-            'show_date' : DateInput() # Date widget for appropriate 'show_date' data format
+            'show_date' : DateInput()
         }
 
 class UserRegistrationForm(UserCreationForm):

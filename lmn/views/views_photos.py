@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from ..models import Photo
-from ..forms import PhotosForm
+from .models import Photo
+from .forms import PhotosForm
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -17,7 +17,7 @@ def add_photo(request):
         # If valid, saves photo file and returns user to updated page.
         if form.is_valid():
             photo.save()
-            return redirect('homepage')
+            return redirect('home')
     # Updates photos_form and add_photo.html
     photos_form = PhotosForm()
     return render(request , 'lmn/add_photo.html' , {'photos_form' : photos_form})
