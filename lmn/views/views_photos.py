@@ -21,5 +21,3 @@ def add_photo(request):
     # Updates photos_form and add_photo.html
     photos_form = PhotosForm()
     return render(request , 'lmn/add_photo.html' , {'photos_form' : photos_form})
-
-def show_photos(request, venue_pk):
