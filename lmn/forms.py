@@ -1,10 +1,13 @@
 from django import forms
-from .models import Note
+from .models import Note, Photo
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.forms import ValidationError
+from django.forms import ValidationError, MultiWidget
 
+# Create date input class. Import MultiWidget (above).
+class DateInput(forms.DateInput):
+    input_type='date'
 
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200)
@@ -19,6 +22,14 @@ class NewNoteForm(forms.ModelForm):
         model = Note
         fields = ('title', 'text')
 
+# Creates the PhotosForm class
+class PhotosForm(forms.ModelForm):
+    class Meta:
+        model = Photo # Photo class from models.py
+        fields = ('user' , 'artist' , 'venue' , 'show_date' , 'photo') # Fields from models.py Photo class
+        widgets = {
+            'show_date' : DateInput() # Date widget for appropriate 'show_date' data format
+        }
 
 class UserRegistrationForm(UserCreationForm):
 
