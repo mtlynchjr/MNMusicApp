@@ -22,10 +22,10 @@ def add_photo(request, show_pk):
             # If valid, saves photo file and returns user to updated page.
             photo.show = show
             photo.save()
-            messages.info(request, 'Your photo has added!')
+            messages.info(request, 'Your photo has been added!')
         else:
             messages.error(request , form.errors)
-        return redirect('photo_detail', photo_pk=photo.pk)
+        return redirect('lmn/photos/photos.html', photo_pk=photo.pk)
     else:
         form = PhotosForm()
 
@@ -43,11 +43,18 @@ def add_photo(request, show_pk):
 #     show = Show.objects.get(pk=show_pk)  
 #     return render(request, 'lmn/photos/photo_list.html', { 'show': show, 'photos': photos })
 
-# @login_required
-# def delete_photo(request, photo_pk):
-#     photo = get_object_or_404(Photo, pk=photo_pk)
-#     if photo.user == request.user:
-#         photo.delete()
-#         return redirect(X)
-#     else:
-#         X
+@login_required
+def delete_photo(request, photo_pk):
+
+    photo = get_object_or_404(Photo, photo_pk=photo_pk)
+    
+    if request.method == 'GET':
+        form = PhotosForm(request.GET , request.FILES , inatance=Photo)
+        if form.is_valid():
+            photo = form.delete(commit=False)
+            if photo.user == request.user:
+                photo.delete()
+                messages.info(request, 'Your photo has added!')
+    else:
+        messages.error(request , form.errors)
+    return redirect('lmn/photos/photos.html', photo_pk=photo.pk)
