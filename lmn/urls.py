@@ -36,6 +36,6 @@ urlpatterns = [
     path('register/', views_users.register, name='register'),
 
     # Photo Related
-    path('photos/add', views_photos.add_photo, name='add_photo')
+    path('photos/add/<int:photo_pk>', views_photos.add_photo, name='add_photo')
 
 ]
