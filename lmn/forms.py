@@ -26,7 +26,7 @@ class NewNoteForm(forms.ModelForm):
 class PhotosForm(forms.ModelForm):
     class Meta:
         model = Photo # Photo class from models.py
-        fields = ('user' , 'artist' , 'venue' , 'show_date' , 'photo') # Fields to appear on HTML
+        fields = ('user' , 'artist' , 'venue' , 'date_taken' , 'photo_str') # Fields to appear on HTML
         # Widget below uses DateInput class above to ensure date entered is a valid.
         widgets = {
             'show_date' : DateInput()
