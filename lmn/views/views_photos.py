@@ -20,4 +20,4 @@ def add_photo(request):
             return redirect('home')
     # Updates photos_form and add_photo.html
     photos_form = PhotosForm()
-    return render(request , 'lmn/add_photo.html' , {'photos_form' : photos_form})
+    return render(request , 'lmn/photos/add_photo.html' , {'photos_form' : photos_form})
