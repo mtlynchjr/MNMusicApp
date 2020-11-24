@@ -64,7 +64,7 @@ class Photo(models.Model):
     user = models.ForeignKey('auth.User' , null=False , on_delete=models.CASCADE)
     artist = models.ForeignKey(Artist , blank=True , null=True , on_delete=models.CASCADE)
     venue = models.ForeignKey(Venue , blank=True , null=True , on_delete=models.CASCADE)
-    show_date = models.DateTimeField(blank=True , null=True)
+    date_taken = models.DateTimeField(blank=True , null=True)
     # Creates destination directory "user_images" for photos.
     photo = models.ImageField(upload_to="user_images/" , blank=True , null=True)
 
@@ -73,4 +73,4 @@ class Photo(models.Model):
         # Displays message to user if no photos yet exist.
         photo_str = self.photo.url if self.photo else "No photos found. Add some!"
         # Displays photos to user with user-friendly informational string.
-        return f"{self.user}'s photos of {self.artist} performing live at {self.venue} on {self.show_date}\n{photo_str}"
+        return f"{self.user}'s photos of {self.artist} performing live at {self.venue} on {self.date_taken}\n{photo_str}"
