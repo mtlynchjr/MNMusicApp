@@ -29,7 +29,7 @@ class PhotosForm(forms.ModelForm):
         fields = ('user' , 'artist' , 'venue' , 'date_taken' , 'photo_str') # Fields to appear on HTML
         # Widget below uses DateInput class above to ensure date entered is a valid.
         widgets = {
-            'show_date' : DateInput()
+            'date_taken' : DateInput()
         }
 
 class UserRegistrationForm(UserCreationForm):
