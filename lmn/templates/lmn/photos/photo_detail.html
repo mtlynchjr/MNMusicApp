@@ -1,0 +1,14 @@
+{% extends 'lmn/base.html' %}
+{% block content %}
+
+<h2 id="photo-detail-title">
+    Photos of {{ photo.show.artist.name }} at {{photo.show.venue.name}} taken by 
+    <a class='user' href="{% url 'user_profile' user_pk=photo.user.pk %}">{{ photo.user.username }}</a> 
+    on {{ photo.date_taken }}
+</h2>
+
+<div id="photo_{{ photo.pk }}">
+    <img src="{{ photo.photo.url }}">
+</div>
+
+{% endblock %}

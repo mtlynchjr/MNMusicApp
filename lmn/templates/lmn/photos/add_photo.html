@@ -2,20 +2,14 @@
 {% extends 'lmn/base.html' %} <!-- Connects this hmtl with base.html  -->
 {% block content %} <!-- Begin content block.  -->
 
-<h2>Photos of {self.artist} at {self.venue}</h2>
+<h2>Add photos of {photo.artist.name} at {photo.venue.name} here!</h2> <!-- Instructional header -->
 
-{% if photo.photo %}
-    <img src="{{ photo.photo.url }}">
-{% else %}
-    <p>No photos found. Add some by uploading below!</p>
-{% endif %}
-
-<h2>Add photos of {self.artist} at {self.venue} here!</h2> <!-- Instructional header -->
-
-<form method="POST" action="{% url 'add_photo' show_pk=show.pk %}" enctype="multipart/form-data"> <!-- Posts to add_photo url.  -->
-    {% csrf_token %}
-    {{ photos_form.as_p }} <!-- Displays photos_form -->
-    <button id='add_photo' type="submit">Add Photo</button> <!-- Button initiates photo save action. -->
+<form method="POST" action="{% url 'add_photo' show_pk=show.pk %}"> <!-- Posts to add_photo url.  -->
+    <div>
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Displays photos_form -->
+        <button id='add_photo' type="submit">Add Photo</button> <!-- Button initiates photo save action. -->
+    </div>
 </form>
 
 {% endblock %} <!-- Ends content block. -->

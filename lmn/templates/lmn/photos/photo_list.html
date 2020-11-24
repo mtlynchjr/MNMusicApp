@@ -1,0 +1,24 @@
+{% extends 'lmn/base.html' %}
+{% block content %}
+
+{% if photo %}
+
+    <h2 id="photo-list-title">Photos of {{ photo.artist.name }} at {{photo.venue.name}}</h2>
+
+    {% for photo in photos %}
+
+    <div id="photo_{{ photo.pk }}">
+        <img src="{{ photo.photo.url }}">
+    </div>
+
+    {% endfor %}
+
+    <p>Photos taken {{ photo.date_taken }} by 
+        <a class='user' href="{% url 'user_profile' user_pk=photo.user.pk %}">{{ photo.user.username }}</a>
+    </p>
+
+    {% else %}
+
+<p>No photos found. Be the first to add a photo!</p>
+
+{% endif %}
