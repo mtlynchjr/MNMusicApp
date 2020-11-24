@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from .models import Photo
-from .forms import PhotosForm
+from ..models import Photo
+from ..forms import PhotosForm
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
