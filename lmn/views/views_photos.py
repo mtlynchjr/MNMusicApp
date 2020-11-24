@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 @login_required
-def add_photo(request):
+def add_photo(request, photo_pk):
     if request.method == 'POST':
         # Needs FILES in addition to POST so photo image file is saved.
         form = PhotosForm(request.POST , request.FILES)

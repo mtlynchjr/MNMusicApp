@@ -2,7 +2,7 @@
 {% extends 'lmn/base.html' %} <!-- Connects this hmtl with base.html  -->
 {% block content %} <!-- Begin content block.  -->
 
-<h3>Photos of {self.artist} at {self.venue}</h3>
+<h2>Photos of {self.artist} at {self.venue}</h2>
 
 {% if photo.photo %}
     <img src="{{ photo.photo.url }}">
