@@ -36,8 +36,9 @@ urlpatterns = [
     path('register/', views_users.register, name='register'),
 
     # Photo Related
-    path('photos/add/<int:show_pk>', views_photos.add_photo, name='add_photo'),
-    path('photos/detail/<int:photo_pk>/', views_photos.photo_detail, name='photo_detail'),
-    path('photos/show_photos/<int:show_pk>', views_photos.show_photos, name='show_photos')
+    path('photos/photos/<int:show_pk>', views_photos.add_photo, name='add_photo'),
+    # path('photos/photo_detail/<int:photo_pk>/', views_photos.photo_detail, name='photo_detail'),
+    # path('photos/show_photos/<int:show_pk>', views_photos.show_photos, name='show_photos'),
+    # path('photos/delete_photo/<int:photo_pk>/', views_photos.delete_photo, name='delete_photo')
 
 ]

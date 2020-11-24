@@ -1,4 +1,4 @@
-{% extends 'lmn/base.html' %}
+<!-- {% extends 'lmn/base.html' %}
 {% block content %}
 
 <h2 id="photo-detail-title">
@@ -7,8 +7,10 @@
     on {{ photo.date_taken }}
 </h2>
 
-<div id="photo_{{ photo.pk }}">
+{% if photo.photo %}
     <img src="{{ photo.photo.url }}">
-</div>
+{% else %}
+    <p>No photos found. Be the first to add a photo!</p>
+{% endif %} 
 
-{% endblock %}
+{% endblock %} -->
