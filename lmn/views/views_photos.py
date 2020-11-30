@@ -50,3 +50,9 @@ def add_photo(request, show_pk):
 def photo_detail(request, photo_pk):
     artist = get_object_or_404(Photo, pk=photo_pk)
     return render(request, 'lmn/photos/photo_detail.html' , { 'photo': photo })
+
+@login_required
+def show_photos(request, show_pk): 
+    photos = Photo.objects.filter(show=show_pk).order_by('-date_taken')
+    show = Show.objects.get(pk=show_pk)  
+    return render(request, 'lmn/photos/show_photos.html', { 'show': show, 'photos': photos })
