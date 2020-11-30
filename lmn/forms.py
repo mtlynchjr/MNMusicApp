@@ -1,9 +1,9 @@
 from django import forms
-from .models import Note
+from .models import Note, Photo
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.forms import ValidationError
+from django.forms import ValidationError, MultiWidget
 
 class DateInput(forms.DateInput):
     input_type='date'
