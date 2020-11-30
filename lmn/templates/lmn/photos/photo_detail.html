@@ -1,0 +1,12 @@
+
+{% extends 'lmn/base.html' %}
+
+{% block content %}
+
+<h2 id='photo-detail-title'>Photo Detail</h2>
+<p id='photo-str'>{{ photo.photo_str }}</p> <!-- OR maybe {{ photo.photo }} ? -->
+
+<p id="photo-detail">{{ photo.show.artist.name }} performing {{photo.show.name}} at {{photo.show.venue.name}} on {{ photo.date_taken }}</p>
+<p>Taken by <a class='user' href="{% url 'user_profile' user_pk=photo.user.pk %}">{{ photo.user.username }}</a></p>
+
+{% endblock %}
