@@ -29,3 +29,19 @@ def add_photo(request, show_pk):
         form = PhotosForm()
 
     return render(request, 'lmn/photos/show_photos.html' , { 'form': form , 'show': show })
+
+# @login_required
+# def delete_photo(request, photo_pk):
+
+#     photo = get_object_or_404(Photo, photo_pk=photo_pk)
+    
+#     if request.method == 'GET':
+#         form = PhotosForm(request.GET , request.FILES , instance=Photo)
+#         if form.is_valid():
+#             photo = form.delete(commit=False)
+#             if photo.user == request.user:
+#                 photo.delete()
+#                 messages.info(request, 'Your photo has been deleted.')
+#     else:
+#         messages.error(request , form.errors)
+#     return redirect('lmn/photos/show_photos.html', photo_pk=photo.pk)
