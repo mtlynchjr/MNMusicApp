@@ -1,0 +1,24 @@
+{% extends 'lmn/base.html' %}
+{% block content %}
+
+{% if show %}
+
+    <h2 id="photo-info">
+        Photos of {{ photo.show.artist.name }} performing {{photo.show.name}} at {{photo.show.venue.name}} taken by 
+        <a class='user' href="{% url 'user_profile' user_pk=photo.user.pk %}">{{ photo.user.username }}</a> on {{ photo.date_taken }}
+    </h2>
+
+{% else %}
+    <h2 id="photo-info">
+        <a href="{% url 'add_photo' show_pk=show.pk %}">Add your photos from this show!</a>
+    </h2>
+
+{% endif %}
+
+<hr>
+
+{% empty %}
+
+<p>There are no photos of this show. <a href="{% url 'add_photo' show_pk=show.pk %}">Be the first to add a photo!</a></p>
+
+{% endblock %}
