@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200)
@@ -17,8 +19,10 @@ class ArtistSearchForm(forms.Form):
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'text')
-
+        fields = ('title', 'text', 'posted_date', 'photo')
+        widgets = {
+            'posted_date' : DateInput()
+        }
 
 class UserRegistrationForm(UserCreationForm):
 

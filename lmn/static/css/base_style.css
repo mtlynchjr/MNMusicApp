@@ -21,3 +21,13 @@ a {
   margin: 2px;
   /* font-weight: bold; */
 }
+
+.new-note{
+  background-color: green;
+  border-color: darkgreen;
+}
+
+.delete-note{
+  background-color: red;
+  border-color: darkred;
+}

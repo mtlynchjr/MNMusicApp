@@ -2,6 +2,7 @@ from django.db import models
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 import datetime
 
 # Every model gets a primary key field by default.
@@ -49,8 +50,26 @@ class Note(models.Model):
     title = models.CharField(max_length=200, blank=False)
     text = models.TextField(max_length=1000, blank=False)
     posted_date = models.DateTimeField(auto_now_add=True, blank=False)
-    photo = models.ImageField(upload_to='user_images/', blank=True, null=True) # Add photo field. blank and null = True because photos are optional.
+    photo = models.ImageField(upload_to='user_images/', blank=True, null=True) # Add photo field. Photos are optional so blank and null = True
 
+    def save(self, *args, **kwargs):
+        existing_photo = Note.objects.filter(pk=self.pk).first()
+        if existing_photo and existing_photo.photo:
+            if existing_photo != self.photo:
+                self.delete_photo(existing_photo.photo)
+
+        super().save(self, *args, **kwargs)
+
+    def delete_photo(self):
+        if default_storage.exists(photo.name):
+            default_storage.delete(photo.name)
+
+    def delete(self, *args, **kwargs):
+        if self.photo:
+                self.delete_photo(self.photo)
+
+        super().delete(*args, **kwargs)
+        
     def __str__(self):
         photo_str = self.photo.url if self.photo else 'No photo.'
-        return f'User: {self.user} Show: {self.show} Note title: {self.title} Text: {self.text} Posted on: {self.posted_date}\nPhoto: {photo_str}' # Display photo with notes info. If no photo, display "No photo."
+        return f'User: {self.user} Show: {self.show} Note title: {self.title} Text: {self.text} Posted on: {self.posted_date}\nPhoto: {photo_str}'
