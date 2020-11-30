@@ -36,4 +36,10 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
     path('register/', views_users.register, name='register'),
 
+    # Photo related
+    path('photos/add/<int:show_pk>/', views_photos.add_photo, name='add_photo'),
+    path('photos/delete/<int:show_pk>/', views_photos.delete_photo, name='delete_photo'),
+    path('photos/detail/<int:photo_pk>/', views_photos.photo_detail, name='photo_detail'),
+    path('photos/show/<int:show_pk>/', views_photos.show_photos, name='show_photos'),
+
 ]
