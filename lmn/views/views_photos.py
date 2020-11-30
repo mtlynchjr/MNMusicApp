@@ -45,3 +45,8 @@ def add_photo(request, show_pk):
 #     else:
 #         messages.error(request , form.errors)
 #     return redirect('lmn/photos/show_photos.html', photo_pk=photo.pk)
+
+@login_required
+def photo_detail(request, photo_pk):
+    artist = get_object_or_404(Photo, pk=photo_pk)
+    return render(request, 'lmn/photos/photo_detail.html' , { 'photo': photo })
