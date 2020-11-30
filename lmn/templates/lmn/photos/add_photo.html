@@ -1,0 +1,15 @@
+{% extends 'lmn/base.html' %}
+{% load static %}
+{% block content %}
+
+<h2 id="add-photo-title">Add photos of {{ photo.show.artist.name }} performing {{photo.show.name}} at {{photo.show.venue.name}} here!</h2>
+
+<form action="{% url 'add_photo' show_pk=show.pk %}" method="POST" enctype="multipart/form-data">
+    <div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button id='add_photo-button' type="submit">Add Photo</button>
+    </div>
+</form>
+
+{% endblock %}
