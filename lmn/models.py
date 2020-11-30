@@ -57,3 +57,16 @@ class Note(models.Model):
     def __str__(self):
         return f'User: {self.user} Show: {self.show} Note title: {self.title} Text: {self.text} Posted on: {self.posted_date}'
 
+""" A user's photos from a show. """
+class Photo(models.Model):
+    user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, blank=False, on_delete=models.CASCADE)
+    show = models.ForeignKey(Show, blank=False, on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, blank=False, on_delete=models.CASCADE)
+    date_taken = models.DateTimeField(auto_now_add=True, blank=False)
+    # Creates destination directory "user_images" for photos.
+    photo = models.ImageField(upload_to="user_images/" , blank=False , null=False)
+
+    def __str__(self):
+        photo_str = self.photo.url if self.photo else "No photos found. Add some!"
+        return f"{self.user}'s photos of {self.artist} performing {self.show} live at {self.venue} on {self.date_taken}\n{photo_str}"
