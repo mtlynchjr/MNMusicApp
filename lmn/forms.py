@@ -1,14 +1,14 @@
 from django import forms
-from .models import Note, Show, AddNote
+from .models import Note, Show 
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ValidationError, MultiWidget
 
-class AddForm(forms.ModelForm):
+class NoteAddForm(forms.ModelForm):
     class Meta:
-        model = AddNote
-        fields = ['show', 'user', 'title', 'text', 'notes', 'posted_date']
+        model = Note
+        fields = [ 'title','text', 'notes']     
 
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200)

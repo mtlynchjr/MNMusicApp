@@ -2,7 +2,13 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'add_note %}">
+<h2>Add new note</h2>
+
+{% for message in messages %
+    <li>{{ message }}</li>}
+{% endfor %}
+
+<form method="POST" action="{% url 'add_note' %}">
     {% csrf_token %}
     {{ n_note_form.as_p }}
     <button tpye="submit">Add note</button>

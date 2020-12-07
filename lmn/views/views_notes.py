@@ -6,8 +6,8 @@ from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistra
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import AddForm
-
+from django.contrib import messages
+from .forms import NoteAddForm
 
 @login_required
 def new_note(request, show_pk):
@@ -47,12 +47,18 @@ def note_detail(request, note_pk):
 
 def add_note(request):
     if request.method == 'POST':
-        n_note_form = AddForm(request.POST)
+        n_note_form = NoteAddForm(request.POST)
         if n_note_form.is_valid():
            n_note_form.save()
+           messages.info(request, 'New note saved!')
         else:
+            messages.warning(request, 'Please check data entered.')
             return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
 
-    n_note_form = AddForm()
+    n_note_form = NoteAddForm()
     return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
+
+def add_list(request):
+     notes = Note.objects.all()
+     return render(request, 'lmn/notes/add_list.html', { 'notes': notes })
 

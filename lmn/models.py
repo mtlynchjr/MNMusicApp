@@ -55,6 +55,7 @@ class Note(models.Model):
     user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False)
     text = models.TextField(max_length=1000, blank=False)
+    #notes = models.TextField(blank=True, null=True)
     posted_date = models.DateTimeField(auto_now_add=True, blank=False)
 
     def __str__(self):
@@ -63,13 +64,13 @@ class Note(models.Model):
 
 """ One user's opinion of one note. """
 class AddNote(models.Model):
-    show = models.ForeignKey(Show, blank=False, on_delete=models.CASCADE)
-    user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
+#     show = models.ForeignKey(Show, blank=False, on_delete=models.CASCADE)
+   # user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False)
     text = models.TextField(max_length=1000, blank=False)
     notes = models.TextField(blank=True, null=True)
-    posted_date = models.DateTimeField(auto_now_add=True, blank=False)
+    #posted_date = models.DateTimeField(auto_now_add=True, blank=False)
     
 
     def __str__(self):
-        return f'User: {self.user}, Show: {self.show}, Note title: {self.title}, Text: {self.text}, Notes: {self.notes}, Posted on: {self.posted_date}'
+        return f' Note title: {self.title}, Text: {self.text}, Notes: {self.notes}'
