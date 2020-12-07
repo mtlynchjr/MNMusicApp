@@ -1,0 +1,11 @@
+{% extends 'lmn/base.html' %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'add_note %}">
+    {% csrf_token %}
+    {{ n_note_form.as_p }}
+    <button tpye="submit">Add note</button>
+</form>
+
+{% endblock %}
