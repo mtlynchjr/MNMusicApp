@@ -21,8 +21,8 @@ urlpatterns = [
     path('notes/detail/<int:note_pk>/', views_notes.note_detail, name='note_detail'),
     path('notes/for_show/<int:show_pk>/', views_notes.notes_for_show, name='notes_for_show'),
     path('notes/add/<int:show_pk>/', views_notes.new_note, name='new_note'),
-    path('notes/add/', views_notes.add_note, name='add_note'),
-    path('notes/add/', views_notes.add_list, name='add_list'),
+    path('notes/add/<int:note_pk>/', views_notes.add_note, name='add_note'),
+    path('notes/add/<int:note_pk>/', views_notes.add_list, name='add_list'),
 
     # Artist related
     path('artists/list/', views_artists.artist_list, name='artist_list'),
@@ -39,5 +39,5 @@ urlpatterns = [
     path('register/', views_users.register, name='register'),
 
     # Show related
-    path('shows/add/', views_shows.add_show, name='add_show')
+    path('shows/add/', views_shows.add_show, name='add_show'),
 ]

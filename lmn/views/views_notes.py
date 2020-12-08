@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from ..models import Venue, Artist, Note, Show
-from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
+from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm, AddNoteForm, SearchForm
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.db.models.functions import Lower
@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import NoteAddForm, SearchForm
 
 
 @login_required
@@ -50,7 +49,7 @@ def note_detail(request, note_pk):
 
 def add_note(request):
     if request.method == 'POST':
-        n_note_form = NoteAddForm(request.POST)
+        n_note_form = AddNoteForm(request.POST)
         if n_note_form.is_valid():
             try:
                 n_note_form.save()
@@ -64,7 +63,7 @@ def add_note(request):
         messages.warning(request, 'Please check data entered.')
         return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
     
-    n_note_form = NoteAddForm()
+    n_note_form = AddNoteForm()
     return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
 
 def add_list(request):

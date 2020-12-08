@@ -5,10 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ValidationError, MultiWidget
 
-class NoteAddForm(forms.ModelForm):
+class AddNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['title','text', 'notes']     
+        fields = ('title','text')    
 
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200)
@@ -35,7 +35,7 @@ class NewShowForm(forms.ModelForm):
         fields = ('show_date', 'show_time', 'artist', 'venue')
         widgets = {
             'show_date': DateInput(),
-            'show_time': TimeInput()
+            'show_time': TimeInput(),
         }
 
 class UserRegistrationForm(UserCreationForm):
