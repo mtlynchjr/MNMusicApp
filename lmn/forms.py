@@ -11,11 +11,21 @@ class DateInput(forms.DateInput):
     input_type='date'
 
 class VenueSearchForm(forms.Form):
-    search_name = forms.CharField(label='Venue Name', max_length=200)
+    search_name = forms.CharField(label='Venue Name', max_length=200, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Search Venues...'
+        }
+    ))
 
 
 class ArtistSearchForm(forms.Form):
-    search_name = forms.CharField(label='Artist Name', max_length=200)
+    search_name = forms.CharField(label='Artist Name', max_length=200, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Search Artists...'
+        }
+    ) )
 
 
 class NewNoteForm(forms.ModelForm):
