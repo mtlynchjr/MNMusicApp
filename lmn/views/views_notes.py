@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..models import Venue, Artist, Note, Show
 from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
-
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.db.models.functions import Lower
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import NoteAddForm
+from .forms import NoteAddForm, SearchForm
+
 
 @login_required
 def new_note(request, show_pk):
@@ -49,16 +52,35 @@ def add_note(request):
     if request.method == 'POST':
         n_note_form = NoteAddForm(request.POST)
         if n_note_form.is_valid():
-           n_note_form.save()
-           messages.info(request, 'New note saved!')
-        else:
-            messages.warning(request, 'Please check data entered.')
-            return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
-
+            try:
+                n_note_form.save()
+                return redirect('add_list')
+                #messages.info(request, 'New note saved!')
+            except ValidationError:
+                    messages.warning(request, 'Invalid note!') # No duplicate notes
+            except IntegrityError:
+                messages.warning(request, 'You already added that note.')
+        
+        messages.warning(request, 'Please check data entered.')
+        return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
+    
     n_note_form = NoteAddForm()
     return render(request, 'lmn/notes/add_note.html', {'n_note_form ': n_note_form })
 
 def add_list(request):
-     notes = Note.objects.all()
-     return render(request, 'lmn/notes/add_list.html', { 'notes': notes })
+
+    search_form = SearchForm(request.GET)
+
+    if search_form.is_valid(): # check for valid search note
+        search_note = search_note.cleaned_data['search_note']  # example: notes
+        notes = Note.objects.filter(name_icontains=search_note.order_by(Lower('notes')) # match notes
+
+    else:
+        search_form = SearchForm() # new search form makes
+        notes = Note.objects.order_by(Lower('notes'))
+
+     
+    return render(request, 'lmn/notes/add_list.html', { 'notes': notes, 'search_form': search_form })
+
+ 
 

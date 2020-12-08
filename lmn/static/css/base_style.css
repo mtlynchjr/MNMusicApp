@@ -21,3 +21,14 @@ a {
   margin: 2px;
   /* font-weight: bold; */
 }
+
+.navigation{
+
+  margin: 10px;
+}
+
+.navigation > a {
+  color: darkgreen;
+  padding-right: 30px
+
+}

@@ -8,7 +8,7 @@ from django.forms import ValidationError, MultiWidget
 class NoteAddForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = [ 'title','text', 'notes']     
+        fields = ['title','text', 'notes']     
 
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200)
@@ -96,3 +96,6 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+class SearchForm(forms.Form):
+    search_note = forms.CharField()
