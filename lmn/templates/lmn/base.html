@@ -14,7 +14,7 @@
 
 
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
    <div>
       <a class="navbar-brand" href="{% url 'homepage' %}">Home</a>
 
@@ -22,7 +22,7 @@
       <a class="navbar-brand" href="{% url 'artist_list' %}">Artists</a>
       <a class="navbar-brand" href="{% url 'latest_notes' %}">Notes</a>
       <a class="navbar-brand" href="{% url 'add_show' %}">Add Show</a>
-      <!-- For login -->
+     
       {% if user.is_authenticated %}
       <span id='welcome-user-msg'>You are logged in, <a href="{% url 'user_profile' user_pk=user.pk %}">{{ user.username }}</a>.  <a href="{% url 'logout' %}">Logout</a></span>
 
@@ -35,8 +35,18 @@
    
    
     </div>
-  </nav>
+  </nav> -->
 
+    <!-- New nav -->
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'homepage' %}">Music Notes</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+    </nav>
   
 <body>
   <div id="content">
