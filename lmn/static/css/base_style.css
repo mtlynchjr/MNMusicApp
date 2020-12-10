@@ -71,6 +71,11 @@ a {
   }
 } */
 
+.nav a{
+  color: white !important;
+  font-size: 1.8em !important;
+  }
+
 .container {
   background-color: black;
 }

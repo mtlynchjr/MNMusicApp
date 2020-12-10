@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="{% static 'css/base_style.css' %}" type="text/css"></link>
 
 </head>
-
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 
 
   <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -45,36 +46,44 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto ">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'venue_list' %}">Venues</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'artist_list' %}">Artists</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'latest_notes' %}">Notes</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
-            <a href="" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">
               Welcome, {{ user.username }}
             </a>
-            <div class="dropdown-menu"></div>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'user_profile' user_pk=user.pk %}">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a> 
+            </div>
 
             </div>
           </li>
           {% else %}
-          <span id='login-or-sign-up'><a href="{% url 'login' %}?next={{ request.path }}">Login or sign up</a></span>
-
+          <li class="nav-item">
+            <!-- <span id='login-or-sign-up' class="nav-link"><a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a></span> -->
+            <a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a>
+          </li>
           {% endif %}
         </ul>
 
       </div>
 
-
+        
     </nav>
-  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <body>
   <div id="content">
     {% block content %}
@@ -82,37 +91,6 @@
   </div>
 </body>
 </html>
-
-<!--  
-
-<h1>LMN</h1>
-
-    
-      <a class="navbar-brand" href="{% url 'add_show' %}">Add Show</a>
-
-    {% if user.is_authenticated %}
-      <span id='welcome-user-msg'>You are logged in, <a href="{% url 'user_profile' user_pk=user.pk %}">{{ user.username }}</a>.  <a href="{% url 'logout' %}">Logout</a></span>
-
-    {% else %}
-
-      <span id='login-or-sign-up'><a href="{% url 'login' %}?next={{ request.path }}">Login or sign up</a></span>
-
-    {% endif %}
-
-    <hr>
-        <ul class="nav navbar-nav">
-        <li class="nav-item dropdown">
-          <a href="" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Welcome, {{ user.username }}
-          </a>
-          <div class="dropdown-menu dropdown-menu-right position-absolute" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'user_profile' user_pk=user.pk %}">Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>    
-          </div>
-        </li>  
-      </ul>
-  -->
 
 
   
