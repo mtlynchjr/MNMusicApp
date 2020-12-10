@@ -41,12 +41,14 @@
     <!-- New nav -->
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="{% url 'homepage' %}">Music Notes</a>
+      <a class="navbar-brand" href="{% url 'homepage' %}">
+        <!-- <img src="static/css/img/logo.svg" height="70px" alt="" id="brand-image" class="d-inline-block align-top" > -->
+        Minnesota Music Notes</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto ">
+        <ul class="navbar-nav md-auto ">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'venue_list' %}">Venues</a>
           </li>
@@ -56,26 +58,29 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'latest_notes' %}">Notes</a>
           </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">
-              Welcome, {{ user.username }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{% url 'user_profile' user_pk=user.pk %}">Profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a> 
-            </div>
-
-            </div>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <!-- <span id='login-or-sign-up' class="nav-link"><a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a></span> -->
-            <a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a>
-          </li>
-          {% endif %}
         </ul>
+        <ul class="navbar-nav ml-auto ">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown">
+                Welcome, {{ user.username }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'user_profile' user_pk=user.pk %}">Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a> 
+              </div>
+
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <!-- <span id='login-or-sign-up' class="nav-link"><a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a></span> -->
+              <a href="{% url 'login' %}?next={{ request.path }}" class="nav-link">Login or sign up</a>
+            </li>
+            {% endif %}
+        </ul>
+        
 
       </div>
 

@@ -1,37 +1,43 @@
 {% extends 'lmn/base.html' %}
 {% load static %}
+
+
+{% load crispy_forms_tags %}
 {% block content %}
+<div class="card bg-dark">
+   <div class="card-header">
+    <h2>Edit Note</h2>
+    </div>
+    <div class="card-body">
+        <h2 id="note-page-title">{{ note.show.artist.name }} at {{ note.show.venue.name }} by 
+            <a href="{% url 'user_profile' user_pk=note.user.pk %}">{{ user.username }}</a>
+        </h2>
+        <h4>Current title:</h4>
+        <p id="note-title"><b>{{ note.title}}</b></p>
+        <h4>Current text:</h4>
+        <p id="note-text">{{ note.text }}</b>
 
-<h2>Edit Note</h2>
+        <form action="{% url 'edit_notes' note.pk %}" method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-info">Save</button> 
+        </form>
 
+        <form action="{% url 'delete_notes' note.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button> 
 
-<h2 id="note-page-title">{{ note.show.artist.name }} at {{ note.show.venue.name }} by 
-    <a href="{% url 'user_profile' user_pk=note.user.pk %}">{{ user.username }}</a>
-</h2>
+        </form>
 
-<p id="note-title"><b>{{ note.title}}</b></p>
-<p id="note-text">{{ note.text }}</b>
+        <script src="{% static 'js/confirm_delete.js '%}"></script>
 
-<form action="{% url 'edit_notes' note.pk %}" method="POST">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="edit">Edit</button> 
-</form>
-
-<form action="{% url 'delete_notes' note.pk %}" method="POST">
-   {% csrf_token %}
-   <button type="submit" class="delete">Delete</button> 
-
-</form>
-
-<script src="{% static 'js/confirm_delete.js '%}"></script>
-
-
-<form action="{% url 'edit_notes' note.pk %}" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="edit">Edit</button>
-</form>
-
+<!-- This button doesn't really do anything?? -->
+        <!-- <form action="{% url 'edit_notes' note.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="edit">Edit</button>
+        </form> -->
+    </div>
+</div>
 
 
 {% endblock %}

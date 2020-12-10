@@ -1,8 +1,18 @@
 {% extends 'lmn/base.html' %}
 
 {% block content %}
+<div class="row justify-content-center">
+    <div class="card bg-dark">
+             
+        <div class="card-header" style="background-color: #272c30;">
+            <h2 id='artist-detail-title'>Artist Detail</h2>
+        </div>
+        <div class="card-body">
+            <h3>Artist Name:</h3> <br>  
+            <p id='artist-name'>{{ artist.name }}</p>
+        </div>
 
-<h2 id='artist-detail-title'>Artist Detail</h2>
-<p id='artist-name'>{{ artist.name }}</p>
+    </div>
 
+</div>
 {% endblock %}

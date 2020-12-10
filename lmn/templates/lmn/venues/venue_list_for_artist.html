@@ -1,17 +1,23 @@
 {% extends 'lmn/base.html' %}
 {% block content %}
+<div class="row justify-content-center">
+  <div class="card bg-dark">
+    <div class="card-header" style="background-color: #272c30;">
+    <h2 id="venues_for_artist_title">Venues that {{ artist.name }} has played at</h2>
+    </div>
+    <div class="card-body">
+    {% for show in shows %}
 
-<h2 id="venues_for_artist_title">Venues that {{ artist.name }} has played at</h2>
-
-{% for show in shows %}
-
-  <div class="show" id="show-{{ show.pk }}">
-    <p>{{ show.venue.name}} on {{ show.show_date }}</p>
-    <p><a href="{% url 'notes_for_show' show_pk=show.pk %}">See notes for this show and add your own</a></p>
+      <div class="show" id="show-{{ show.pk }}">
+        <p>{{ show.venue.name}} on {{ show.show_date }}</p>
+        <p><a href="{% url 'notes_for_show' show_pk=show.pk %}">See notes for this show and add your own</a></p>
+      </div>
+      <hr>
+    {% empty %}
+      <P id="no-results">We have no records of venues this artist has played at<p>
+    {% endfor %}
   </div>
 
-{% empty %}
-  <P id="no-results">We have no records of venues this artist has played at<p>
-{% endfor %}
-
+  </div>
+</div>
 {% endblock %}
