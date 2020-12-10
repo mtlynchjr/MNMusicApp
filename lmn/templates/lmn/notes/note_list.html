@@ -2,12 +2,35 @@
 {% load static %}
 {% block content %}
 
-{% if show %}
+<!-- {% if show %}
 <h3 id="note-page-title">{{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date }}</h3>
 {% else %}
 
 <h2>Latest Notes</h2>
-{% endif %}
+{% endif %} -->
+
+<div>
+
+  <h2>Note Search</h2>
+  <!-- Calls and displays Notes Search form with Search button -->
+  <form action="{% url 'note_list' %}">
+    {{ form }}
+    <input type='submit' value='Search'/>
+  </form>
+
+  <div>
+
+    {% if search_term %}
+    <!-- Displays notes found -->
+      <h3 id="note_list_title">Notes matching '{{ search_term }}'
+        <!-- Button clears search results -->
+        <a href="{% url 'note_list' %}" id='clear_search'>Clear</a>
+      </h3>
+    {% else %}
+      <h3 id="show_list_title">All Notes</h3>
+    {% endif %}
+
+  </div>
 
 {% for note in notes %}
 
