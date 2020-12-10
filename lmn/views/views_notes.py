@@ -41,7 +41,7 @@ def latest_notes(request):
         # Show all notes sorted by posted date
         notes = Note.objects.all().order_by('-posted_date')
     # Returns to note_list page
-    return render(request, 'lmn/notes/note_list.html', { 'notes': notes, search_term': search_name, 'form': form })
+    return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'search_term': search_name, 'form': form })
 
 @login_required
 def notes_for_show(request, show_pk):
