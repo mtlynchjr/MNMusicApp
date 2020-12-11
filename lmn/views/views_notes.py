@@ -28,20 +28,24 @@ def new_note(request, show_pk):
         form = NewNoteForm()
     return render(request, 'lmn/notes/new_note.html' , { 'form': form , 'show': show })
 
-# Latest Notes/Notes List function
 @login_required
-def latest_notes(request):
-    # Search Notes form
+def notes_search(request):
+
     form = NoteSearchForm()
     search_name = request.GET.get('search_name')
-    # Display search results sorted by search term
+
     if search_name:
         notes = Note.objects.filter(name__icontains=search_name).order_by('name')
     else :
-        # Show all notes sorted by posted date
-        notes = Note.objects.all().order_by('-posted_date')
-    # Returns to note_list page
-    return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'form': form, 'search_term': search_name  })
+        notes = Note.objects.all().order_by('name')
+
+    return render(request, 'lmn/notes/notes_list.html', { 'notes': notes, 'form': form, 'search_term': search_name })
+
+@login_required
+def latest_notes(request):
+
+    notes = Note.objects.all().order_by('-posted_date')
+    return render(request, 'lmn/notes/note_list.html', { 'notes': notes })
 
 @login_required
 def notes_for_show(request, show_pk):
