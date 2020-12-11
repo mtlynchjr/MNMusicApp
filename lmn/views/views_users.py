@@ -73,3 +73,9 @@ def register(request):
 
     form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form} )
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You logged out successfully!")
+    return redirect("main:homepage")
+
