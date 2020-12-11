@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from ..models import Venue, Artist, Note, Show
+from ..models import Venue, Artist, Note, Show, NoteSearch
 from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm, NoteSearchForm
 
 from django.contrib.auth.decorators import login_required
