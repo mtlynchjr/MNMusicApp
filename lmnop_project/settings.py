@@ -23,9 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'o+do-*x%zn!43h+unn!46(xp$e6&)=y63v#lj3ywjuy8cihz9f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Changed back to True after False change
 
-ALLOWED_HOSTS = [] # Changed back to [] (blank/nothng) after '*' change
+if os.getenv('GAE_INSTANCE'):
+    DEBUG = False
+else:
+    DEBUG = True
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,35 +79,25 @@ WSGI_APPLICATION = 'lmnop_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-
-    # Uncomment this when you are ready to use Postgres.
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': '',
-    #     'USER' : '',
-    #     'PASSWORD' : os.environ[''],
-    #     'HOST' : '',
-    #     'PORT' : '5432',
-    # },
-
-    # And when you use Postgres, comment out or remove this DB config. 
-    # Using environment variables to detect where this app is running, and automatically use 
-    # an appropriate DB configuration, is a good idea.
-    
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
+    'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'artists',
+            'USER' : 'datauser',
+            # 'PASSWORD' : os.getenv['DATAUSER_PW'],
+            'PASSWORD' : 'TripleRocks68',
+            'HOST' : '/cloudsql/lmnop-296518:us-central1:lmnop-db',
+            'PORT' : '5432',
+        },
 }
 
 if not os.getenv('GAE_INSTANCE'):
     DATABASES ['default']['HOST'] = '127.0.0.1'
-#     DATABASES = {
-#         'default' :{
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
-#         }
+    DATABASES = {
+        'default' :{
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -142,20 +136,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# STATIC_URL = '/static/'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 
-GS_STATIC_FILE_BUCKET = 'lmnop-296518.appspot.com'
-STATIC_URL = f'https://storage.cloud.google.com/{GS_STATIC_FILE_BUCKET}/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+if not os.getenv('GAE_INSTANCE'):
+    # local settings
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
 
-GS_BUCKET_NAME = 'lmnop-user-uploads-etc'
-MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
+else:
+    # GCP settings
+    GS_STATIC_FILE_BUCKET = 'lmnop-296518.appspot.com'
+    STATIC_URL = f'https://storage.cloud.google.com/{GS_STATIC_FILE_BUCKET}/static/'
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+    GS_BUCKET_NAME = 'lmnop-user-uploads-etc'
+    MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
 
 
 # Where to send user after successful login, and logout, if no other page is provided.

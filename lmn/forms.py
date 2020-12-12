@@ -1,4 +1,5 @@
 from django import forms
+from .models import Note, Show, UserDetails
 from .models import Note, Show
 
 from django.contrib.auth.forms import UserCreationForm
@@ -20,7 +21,8 @@ class ArtistSearchForm(forms.Form):
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'text', 'posted_date', 'photo')
+        # reminder: removed 'posted_date' from fields, likely needs additional revision
+        fields = ('title', 'text', 'photo')
         widgets = {
             'posted_date' : DateInput()
         }
@@ -98,3 +100,8 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+class UserDetailsForm(forms.ModelForm):
+    class Meta:
+        model = UserDetails
+        fields = ('display_name', 'location', 'favorite_genres', 'bio')
