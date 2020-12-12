@@ -1,0 +1,31 @@
+[
+    {"model" : "lmn.user_details", "pk" : 1 , "fields" :
+      { 
+        "user": 1,
+        "display_name" : "Rock Lover",
+        "bio" : "I am Alice",
+        "favorite_genres" : "Rock, alternative",
+        "location" : "Minneapolis"
+      }
+    },
+
+    {"model" : "lmn.user_details", "pk" : 2 , "fields" :
+      { 
+        "user": 2,
+        "display_name" : "Bobby Boy",
+        "bio" : "Welcome to my twisted mind",
+        "favorite_genres" : "Metal",
+        "location" : "St Cloud, MN"
+      }
+    },
+
+    {"model" : "lmn.user_details", "pk" : 3 , "fields" :
+      { 
+        "user": 3,
+        "display_name" : "Narcissus",
+        "bio" : "I am the best",
+        "favorite_genres" : "My own music",
+        "location" : "Above all of you"
+      }
+    }
+]
