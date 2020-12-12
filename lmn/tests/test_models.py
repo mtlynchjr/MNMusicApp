@@ -10,7 +10,7 @@ from django.db import IntegrityError
 
 import datetime
 
-from ..models import Show
+from ..models import Show, UserDetails
 
 # Create your tests here.
 import tempfile
@@ -44,6 +44,21 @@ class TestUser(TestCase):
         user2 = User(username='bob', email='bob@bob.com', first_name='bob', last_name='bob')
         with self.assertRaises(IntegrityError):
             user2.save()
+
+class TestUserDetails(TestCase):
+    
+    fixtures = ['testing_users']
+
+    def test_user_details_fails_without_user(self):
+        userDetails = UserDetails(display_name='Display Name', location='Location', favorite_genres='Favorite, Genres, Here', bio='Bio')
+        with self.assertRaises(IntegrityError):
+            userDetails.save()
+
+    def test_user_details_accepts_empty_values(self): #users do not add details immediately upon registering, therefore values will be null
+        user = User.objects.get(pk=1)
+        userDetails = UserDetails(user=user, display_name='', location='', favorite_genres='', bio='')
+        userDetails.save()
+
 
 class TestImageUpload(TestCase):
 
@@ -134,3 +149,4 @@ class TestImageUpload(TestCase):
                 note_1.delete()
 
                 self.assertFalse(os.path.exists(uploaded_img_path))
+
