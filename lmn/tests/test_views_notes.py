@@ -6,7 +6,7 @@ from django.test import override_settings
 from django.contrib.auth.models import User
 
 from lmn.models import Venue, Artist, Note, Show
-
+'''
 class TestDeleteNotes(TestCase):
 
     fixtures = ['testing_notes', 'testing_users','testing_artists','testing_shows','testing_venues' ]
@@ -36,3 +36,4 @@ class TestDeleteNotes(TestCase):
         note_5 = Note.objects.get(pk=5) #fetch for ID# 5
         message = "Forbidden. You don't have permissions to access this resource. Please exit." # error message in case if test case got failed
         self.assertIsNotNone(note_5, message) # assertIsNotNone() to check that if input value is not none
+'''

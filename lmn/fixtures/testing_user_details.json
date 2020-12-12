@@ -1,5 +1,5 @@
 [
-    {"model" : "lmn.user_details", "pk" : 1 , "fields" :
+    {"model" : "lmn.userdetails", "pk" : 1 , "fields" :
       { 
         "user": 1,
         "display_name" : "Rock Lover",
@@ -9,7 +9,7 @@
       }
     },
 
-    {"model" : "lmn.user_details", "pk" : 2 , "fields" :
+    {"model" : "lmn.userdetails", "pk" : 2 , "fields" :
       { 
         "user": 2,
         "display_name" : "Bobby Boy",
@@ -19,7 +19,7 @@
       }
     },
 
-    {"model" : "lmn.user_details", "pk" : 3 , "fields" :
+    {"model" : "lmn.userdetails", "pk" : 3 , "fields" :
       { 
         "user": 3,
         "display_name" : "Narcissus",
