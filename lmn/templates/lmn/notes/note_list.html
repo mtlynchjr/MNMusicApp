@@ -3,50 +3,61 @@
 {% block content %}
 
 {% if show %}
+<!-- Display user-friendly header with show details for existing shows -->
 <h3 id="note-page-title">{{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date }}</h3>
 {% else %}
-
-<h2>Latest Notes</h2>
+<!-- Display page title if no existing shows -->
+<h2>Notes List</h2>
 {% endif %}
 
 <div>
-
+  
   <h2>Note Search</h2>
 
-  <!-- Button directs to views_notes.notes_search -->
+  <!-- Search form field from views_notes.notes_search -->
   <form action="{% url 'notes_search' %}">
     {{ form }}
+    <!-- Button enagages views_notes.notes_search function to search existing -->
     <input type='submit' value='Search'/>
   </form>
 
-  <div>
-    {% if search_term %}
-      <h3 id="note_list_title">Notes matching '{{ search_term }}'
-        <a href="{% url 'latest_notes' %}" id='clear_search'>Clear</a>
-      </h3>
-    {% else %}
-      <h3 id="note_list_title">All Notes</h3>
-    {% endif %}
-  </div>
+</div>
+
+{% if search_term %}
+<!-- Display results for existing notes matching entered search term(s) -->
+<h3 id="note_list_title">Notes matching '{{ search_term }}' :
+</h3>
+
+<!-- Link clears and redirects to default note_list.html -->
+<h3 id="clear-search-results">
+  <a href="{% url 'latest_notes' %}" id='clear_search'>Clear Search Results</a>
+</h3>
+
+<!-- If no existing notes match search term(s) display usual All Notes header -->
+{% else %}
+<h2 id="note_list_title">All Notes</h2>
+{% endif %}
 
 {% for note in notes %}
 
+<!-- Display user-friendly header with show details for existing shows -->
 <p class="show-info">
   <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
 </p>
 
 <div id="note_{{ note.pk }}">
-
+<!-- Display note details -->
   <p class="note-title"><b>
     <a href="{% url 'note_detail' note_pk=note.pk %}">{{ note.title }}</a>
   </p></b>
 
   <p class='note-text'>{{note.text|truncatechars:100}}</p>
 
-    <p class="note-info">Posted on {{ note.posted_date }} by 
-      <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
-    </p>
+  <p class="note-info">Posted on {{ note.posted_date }} by 
+    <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
+  </p>
 
+    <!-- If a photo exists, display it. Otherwise display "No photo." -->
     {% if note.photo %}
       <img src="{{ note.photo.url }}">
     {% else %}
@@ -55,20 +66,17 @@
 
   </div>  
 
-  <hr>
-
+<hr>
+<!-- If no existing notes, display "No notes." -->
 {% empty %}
 
 <p>No notes.</p>
 
 {% endfor %}
 
-<!-- If this is a list of notes for one show,
-display link to add new note for that show. -->
-
 {% if show %}
-
-  <a href="{% url 'new_note' show_pk=show.pk %}">Click here to add your own show notes!</a>
+<!-- Links to views_notes.new_note to allow users to add notes to existing shows -->
+<a href="{% url 'new_note' show_pk=show.pk %}">Click here to add your own show notes!</a>
 
 {% endif %}
 

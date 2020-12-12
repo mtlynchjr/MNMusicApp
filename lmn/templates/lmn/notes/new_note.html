@@ -2,14 +2,16 @@
 {% load static %}
 {% block content %}
 
+<!-- Display user-friendly header with show details for existing shows -->
 <h3>New note for {{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date}}</h3>
 
+<!-- NewNote form field from views_notes.new_note -->
 <form method="POST" action="{% url 'new_note' show_pk=show.pk %}" enctype="multipart/form-data">
   <div>
     {% csrf_token %}
     {{ form.as_p }}
   </div>
-
+  <!-- Button enagages views_notes.new_note function to create new note -->
   <button type='submit' class='new-note'>Add Note</button>
 </form>
 

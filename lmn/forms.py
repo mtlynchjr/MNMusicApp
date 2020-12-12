@@ -16,14 +16,16 @@ class VenueSearchForm(forms.Form):
 class ArtistSearchForm(forms.Form):
     search_name = forms.CharField(label='Artist Name', max_length=200)
 
-# Create Notes Search class
+# Create NotesSearchForm class with search field
 class NoteSearchForm(forms.Form):
-    search_name = forms.CharField(label='Note Name', max_length=200)
+    search_name = forms.CharField(label='Enter Note Title', max_length=200)
 
+# Creates NewNoteForm class with fields
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = ('title', 'text', 'posted_date', 'photo')
+        # Date widget for selecting posted date
         widgets = {
             'posted_date' : DateInput()
         }

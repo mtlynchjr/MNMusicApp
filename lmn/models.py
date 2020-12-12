@@ -46,7 +46,8 @@ class Show(models.Model):
     def __str__(self):
         return f'Artist: {self.artist} At: {self.venue} On: {self.show_date}'
 
-""" One user's opinion of one show. """
+""" Displays details for user's note for a particular show """
+""" User can post multiple notes for any one show """
 class Note(models.Model):
     show = models.ForeignKey(Show, blank=False, on_delete=models.CASCADE)
     user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
@@ -55,10 +56,12 @@ class Note(models.Model):
     posted_date = models.DateTimeField(blank=False)
     photo = models.ImageField(upload_to='user_images/', blank=True, null=True)
 
+    """ Results displayed in readable string format for user """
     def __str__(self):
         photo_str = self.photo.url if self.photo else 'No photo.'
         return f'User: {self.user} Show: {self.show} Note title: {self.title} Text: {self.text} Posted on: {self.posted_date}/nPhoto: {photo_str}'
 
+    """ Saves photo to database. Save overrides any existing photo associated with note """
     def save(self, *args, **kwargs):
         existing_photo = Note.objects.filter(pk=self.pk).first()
         if existing_photo and existing_photo.photo:
@@ -67,12 +70,14 @@ class Note(models.Model):
 
         super().save(*args, **kwargs)
 
+    """ Removes photo from note """
     def delete(self, *args, **kwargs):
         if self.photo:
             self.delete_photo(self.photo)
 
         super().delete(*args, **kwargs)
 
+    """ Deletes image file entirely """
     def delete_photo(self, photo):
         if default_storage.exists(photo.name):
             default_storage.delete(photo.name)
