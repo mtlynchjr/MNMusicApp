@@ -46,13 +46,6 @@ class Show(models.Model):
     def __str__(self):
         return f'Artist: {self.artist} At: {self.venue} On: {self.show_date}'
 
-""" Note Search """
-class NoteSearch(models.Model):
-    name = models.CharField(max_length=200, blank=False, unique=True)
-
-    def __str__(self):
-        return f'Name: {self.name}'
-
 """ One user's opinion of one show. """
 class Note(models.Model):
     show = models.ForeignKey(Show, blank=False, on_delete=models.CASCADE)
