@@ -30,12 +30,11 @@ def new_note(request, show_pk):
 
 @login_required
 def notes_search(request):
+
     form = NoteSearchForm()
     search_name = request.GET.get('search_name')
 
     if search_name:
-        # suggest searching in the note text too 
-        # what about searching for notes about an artist? or a venue?
         notes = Note.objects.filter(title__icontains=search_name).order_by('title')
     else:
         notes = Note.objects.all().order_by('-posted_date')
@@ -45,15 +44,17 @@ def notes_search(request):
 @login_required
 def latest_notes(request):
 
+    form = NoteSearchForm()  # Search directs to code in views_notes.notes_search
     notes = Note.objects.all().order_by('-posted_date')
-    return render(request, 'lmn/notes/note_list.html', { 'notes': notes })
+    return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'form': form })
 
 @login_required
 def notes_for_show(request, show_pk):
 
+    form = NoteSearchForm()  # Search directs to code in views_notes.notes_search
     show = Show.objects.get(pk=show_pk)
     notes = Note.objects.filter(show=show_pk).order_by('-posted_date') # Display notes for specific show, sorted by posted date
-    return render(request, 'lmn/notes/note_list.html', { 'show': show, 'notes': notes })
+    return render(request, 'lmn/notes/note_list.html', { 'show': show, 'notes': notes, 'form': form })
 
 @login_required
 def note_detail(request, note_pk):
