@@ -674,3 +674,21 @@ class TestShow(TestCase):
         messages = list(duplicate.context['messages'])
 
         self.assertEqual(2, len(messages))
+
+class TestUserDetails(TestCase):
+
+    fixtures = ['testing_users', 'testing_artists', 'testing_venues', 'testing_shows', 'testing_notes']
+
+    def test_edit_profile_button_does_not_exist_without_can_edit(self):
+        logged_in_user = User.objects.get(pk=2)
+        self.client.force_login(logged_in_user)  # bob
+        response = self.client.get(reverse('user_profile', kwargs={'user_pk':1})) #alice
+
+        self.assertNotContains(response, 'Edit Profile')
+
+    def test_edit_profile_button_does_exist_with_can_edit(self):
+        logged_in_user = User.objects.get(pk=2)
+        self.client.force_login(logged_in_user)  # bob
+        response = self.client.get(reverse('user_profile', kwargs={'user_pk':2})) #still bob
+
+        self.assertContains(response, 'Edit Profile')
