@@ -7,7 +7,7 @@ from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistra
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -74,13 +74,9 @@ def register(request):
     form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form} )
 
-
-def goodbye(request):
-    context = {}
-    context['user'] = request.user
-    return render(request, "auth/goodbye.html", context)
-
 def u_logout(request):
     if request.method == "POST":
         logout(request)
-        return HttpResponseRedirect(reverse('my_user_profile'))
+
+        messages.add_message(request, messages.INFO, 'User is logged out successfully and goodbye my friend.')
+        return redirect('homepage', {'messages': messages})
