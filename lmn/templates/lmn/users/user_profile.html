@@ -1,4 +1,6 @@
 {% extends 'lmn/base.html' %}
+{% load static %}
+
 {% block content %}
 
 
@@ -21,14 +23,24 @@ user is a variable provided to the template and is the current logged-in user
   <button id="edit_profile_button" type="submit">Edit Profile</button>
 </form>
 {% endif %}
-
-<h2 id=display_name>{% if user_details.display_name %}
-  {{ user_details.display_name }}
-  {% else %}
-  {{ user_profile.username }}
-  {% endif %}
-</h2>
-
+<span>
+  <h2 id=display_name>{% if user_details.display_name %}
+    {{ user_details.display_name }}
+    {% else %}
+    {{ user_profile.username }}
+    {% endif %}
+    
+      {% if note_badge == "Lv 1" %}
+        <img style="font-size: 0.73em;" src= "{% static 'img/lv1.png' %}">
+      {% elif note_badge == "Lv 2" %}
+        <img style="font-size: 0.73em;" src= "{% static 'img/lv2.png' %}">
+      {% elif note_badge == "Lv 3" %}
+        <img style="font-size: 0.73em;" src= "{% static 'img/lv3.png' %}">
+      {% elif note_badge == "Lv 4" %}
+        <img style="font-size: 0.73em;" src= "{% static 'img/lv4.png' %}">
+      {% endif %}
+  </h2>
+</span>
 {% if user_details.location %}
 <h4 id=location>Location: {{ user_details.location }}</h4>
 {% endif %}

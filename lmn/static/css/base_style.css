@@ -22,7 +22,11 @@ a {
   /* font-weight: bold; */
 }
 
-img{
+.badge{
+  max-width: 10px;
+}
+
+.user-image{
   width:100%;
   max-width:600px;
 }

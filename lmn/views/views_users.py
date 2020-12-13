@@ -25,7 +25,17 @@ def user_profile(request, user_pk):
 
     
     usernotes = Note.objects.filter(user=user.pk).order_by('-posted_date')
-    return render(request, 'lmn/users/user_profile.html', { 'user_profile': user , 'notes': usernotes, 'user_details': user_details, 'can_edit': can_edit})
+        
+    note_badge = "Lv 1"
+
+    if usernotes.count() > 100:
+        note_badge = "Lv 4"
+    elif usernotes.count() > 50:
+        note_badge = "Lv 3"
+    elif usernotes.count() > 10:
+        note_badge = "Lv 2"
+    
+    return render(request, 'lmn/users/user_profile.html', { 'user_profile': user , 'notes': usernotes, 'user_details': user_details, 'can_edit': can_edit, 'note_badge':note_badge})
     
     
 @login_required
