@@ -19,7 +19,7 @@
 {% endif %}
 
 
-{% for artist in artists %}
+{% for artist in artists.object_list %}
 
   <div class="artist" id="artist_{{ artist.pk }}">
     <p>
@@ -36,5 +36,21 @@
 <p>No artists found</p>
 
 {% endfor %}
-
+<div class="pagination">
+  <ul>
+    {% if artists.has_previous %}
+    <li><a href="?page={{ artists.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% for pg in artists.paginator.page_range %}
+      {% if artists.number == pg %}
+        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% else %}
+        <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if artists.has_next %}
+      <li><a href="?page={{ artists.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
 {% endblock %}

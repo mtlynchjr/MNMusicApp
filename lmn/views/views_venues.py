@@ -6,6 +6,7 @@ from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistra
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 
 
 def venue_list(request):
@@ -15,8 +16,30 @@ def venue_list(request):
     if search_name:
         #search for this venue, display results
         venues = Venue.objects.filter(name__icontains=search_name).order_by('name')
+        paginator = Paginator(venues,5)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except:
+            page = 1
+
+        try:
+            venues = paginator.page(page)
+        except:
+            venues = paginator.page(paginator.num_pages)
     else :
         venues = Venue.objects.all().order_by('name')   # Todo paginate
+        paginator = Paginator(venues,5)
+
+        #it will default grab page 1
+        try:
+            page = int(request.GET.get('page', '1'))
+        except:
+            page = 1
+
+        try:
+            venues = paginator.page(page)
+        except:
+            venues = paginator.page(paginator.num_pages)
 
     return render(request, 'lmn/venues/venue_list.html', { 'venues': venues, 'form': form, 'search_term': search_name })
 

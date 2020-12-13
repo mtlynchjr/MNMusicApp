@@ -9,7 +9,7 @@
 <h2>Latest Notes</h2>
 {% endif %}
 
-{% for note in notes %}
+{% for note in notes.object_list %}
 
 <p class="show-info">
   <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
@@ -43,6 +43,23 @@
 
 {% endfor %}
 
+<div class="pagination">
+  <ul>
+    {% if notes.has_previous %}
+    <li><a href="?page={{ notes.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    {% for pg in notes.paginator.page_range %}
+      {% if notes.number == pg %}
+        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% else %}
+        <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if notes.has_next %}
+      <li><a href="?page={{ notes.next_page_number }}">Next</a></li>
+    {% endif %}
+  </ul>
+</div>
 <!-- If this is a list of notes for one show,
 display link to add new note for that show. -->
 

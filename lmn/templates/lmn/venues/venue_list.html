@@ -24,7 +24,7 @@
 
   <div>
 
-    {% for venue in venues %}
+    {% for venue in venues.object_list %}
 
     <div id="venue-{{ venue.pk }}">
       <p><a href="{% url 'venue_detail' venue_pk=venue.pk %}">{{ venue.name }}</a> {{ venue.city }}, {{ venue.state }}</p>
@@ -34,7 +34,23 @@
     {% empty %}
       <p>No venues found</p>
     {% endfor %}
-
+    <div class="pagination">
+      <ul>
+        {% if venues.has_previous %}
+        <li><a href="?page={{ venues.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for pg in venues.paginator.page_range %}
+          {% if venues.number == pg %}
+            <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+          {% else %}
+            <li><a href="?page={{ pg }}">{{ pg }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if venues.has_next %}
+          <li><a href="?page={{ venues.next_page_number }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </div>
     </div>
 
 </div>
