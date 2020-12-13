@@ -1,40 +1,51 @@
 {% extends 'lmn/base.html' %}
+{% load static %}
 {% block content %}
+<div class="card bg-dark">
+  <div class="card-header"  style="background-color: #272c30;">
+    <h2>Artist List</h2>
 
-<h2>Artist List</h2>
-
-<P>Artist Search</p>
-  <form action="{% url 'artist_list' %}">
-    {{ form }}
-    <input type='submit' value='Search'>
-  </form>
-
-
-{% if search_term %}
-  <h2 id='artist-list-title'>Artists matching '{{ search_term }}' 
-    <a href="{% url 'artist_list' %}" id='clear_search'>(clear)</a>
-  </h2>
-{% else %}
-  <h2 id='artist-list-title'>All artists</h2>
-{% endif %}
-
-
-{% for artist in artists %}
-
-  <div class="artist" id="artist_{{ artist.pk }}">
-    <p>
-      <a href="{% url 'artist_detail' artist_pk=artist.pk %}">{{ artist.name }}</a>
-    </p>
     
-    <p>See venues played, notes, and add your own 
-      <a href="{% url 'venues_for_artist' artist_pk=artist.pk %}">{{ artist.name }} notes</a>
-    </p>  
-  </div>
+      <form action="{% url 'artist_list' %}" class="form-inline float-sm-right">
+        {{ form.search_name }}
+        <button type="submit" class="btn btn-info">Search</button>
 
-{% empty %}
-  
-<p>No artists found</p>
+      </form>
 
-{% endfor %}
+    <div class="text-center">
+      {% if search_term %}
+        <h3 id='artist-list-title'>Artists matching '{{ search_term }}' 
+          <a href="{% url 'artist_list' %}" id='clear_search'>clear</a>
+        </h3>
+      {% else %}
+        <h3 id='artist-list-title'>All artists</h3>
+      {% endif %}
+    </div>
+  </div>  
+  {% for artist in artists %}
 
+    <div  id="artist_{{ artist.pk }}" class="card bg-dark">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="background-color: #343A40;">
+         
+          <h4><a href="{% url 'artist_detail' artist_pk=artist.pk %}">{{ artist.name }}</a></h4>
+          
+          
+          <p>See venues played, notes, and add your own 
+            <a href="{% url 'venues_for_artist' artist_pk=artist.pk %}">{{ artist.name }} notes</a>
+          </p>
+        </li>
+      </ul> 
+    </div>
+
+
+
+
+
+  {% empty %}
+  <div class="card text-center" style="background-color: #403434;" > 
+    <h2>No artists found</h2>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}
