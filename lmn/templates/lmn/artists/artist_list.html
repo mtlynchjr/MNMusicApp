@@ -1,4 +1,5 @@
 {% extends 'lmn/base.html' %}
+{% load static %}
 {% block content %}
 <div class="card bg-dark">
   <div class="card-header"  style="background-color: #272c30;">
@@ -7,7 +8,6 @@
     
       <form action="{% url 'artist_list' %}" class="form-inline float-sm-right">
         {{ form.search_name }}
-        <!-- <input type='submit' value='Search'> -->
         <button type="submit" class="btn btn-info">Search</button>
 
       </form>

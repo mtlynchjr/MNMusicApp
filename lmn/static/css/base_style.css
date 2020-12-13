@@ -83,7 +83,9 @@ a {
 
 
 #brand-image {
-  height: 25px;
+  height: 50px;
+  width: auto;
+  margin: 2%;
 }
 
 .container {

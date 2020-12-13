@@ -37,7 +37,6 @@
             </div>
             {% endif %} 
         </div>
-        <!-- <script src="{% static 'js/confirm_delete.js' %}"></script> # To Appear Below Alicia's Delete Button -->
         <div class="card-footer" style="background-color: #272c30;">
             <form action="{% url 'delete_notes' note.pk %}" method="POST" class="form-inline">
             {% csrf_token %}
