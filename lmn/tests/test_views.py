@@ -26,11 +26,7 @@ class TestEmptyViews(TestCase):
     def test_with_no_venues_returns_empty_list(self):
         response = self.client.get(reverse('venue_list'))
         self.assertFalse(response.context['venues'])  # An empty list is false
-    '''
-    def test_with_no_notes_returns_empty_list(self):
-        response = self.client.get(reverse('latest_notes'))
-        self.assertFalse(response.context['notes'])  # An empty list is false
-    '''
+    
 
 class TestArtistViews(TestCase):
 
@@ -370,7 +366,7 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
         self.assertEqual(Note.objects.count(), initial_note_count + 1)
 
         # Date correct?
-        now = datetime.datetime.today()
+        now = datetime.datetime.now()
         posted_date = new_note_query.first().posted_date
         self.assertEqual(now.date(), posted_date.date())  # TODO check time too
 
@@ -432,158 +428,6 @@ class TestUserProfile(TestCase):
         response = self.client.get(reverse('user_profile', kwargs={'user_pk':3}))
         self.assertContains(response, 'You are logged in, <a href="/user/profile/2/">bob</a>.')
         
-'''
-class TestNotes(TestCase):
-    fixtures = [ 'testing_users', 'testing_artists', 'testing_venues', 'testing_shows', 'testing_notes' ]  # Have to add artists and venues because of foreign key constrains in show
-
-    def test_latest_notes(self):
-        response = self.client.get(reverse('latest_notes'))
-        expected_notes = list(Note.objects.all())
-        # Should be note 3, then 2, then 1
-        context = response.context['notes']
-        first, second, third = context[0], context[1], context[2]
-        self.assertEqual(first.pk, 3)
-        self.assertEqual(second.pk, 2)
-        self.assertEqual(third.pk, 1)
-
-
-    def test_notes_for_show_view(self):
-        # Verify correct list of notes shown for a Show, most recent first
-        # Show 1 has 2 notes with PK = 2 (most recent) and PK = 1
-        response = self.client.get(reverse('notes_for_show', kwargs={'show_pk':1}))
-        context = response.context['notes']
-        first, second = context[0], context[1]
-        self.assertEqual(first.pk, 2)
-        self.assertEqual(second.pk, 1)
-'''
-# Begin Image Tests
-
-# wishlist image tests used as template
-# Note/object issue preventing run and test - Pending consult with Clara
-'''
-class TestImageUpload(TestCase):
-    fixtures = ['testing_users', 'testing_artists', 'testing_shows', 'testing_venues', 'testing_notes']
-
-    def setUp(self):
-        user = User.objects.get(pk=1)
-        self.client.force_login(user)
-        self.MEDIA_ROOT = tempfile.mkdtemp()
-        
-
-    def tearDown(self):
-        print('todo delete temp directory, temp image')
-
-
-    def create_temp_image_file(self):
-        handle, tmp_img_file = tempfile.mkstemp(suffix='.jpg')
-        img = Image.new('RGB', (10, 10) )
-        img.save(tmp_img_file, format='JPEG')
-        return tmp_img_file
-
-
-    def test_upload_new_image_for_self_note(self):
-        
-        img_file_path = self.create_temp_image_file()
-
-        with self.settings(MEDIA_ROOT=self.MEDIA_ROOT):
-        
-            with open(img_file_path, 'rb') as img_file:
-                resp = self.client.post(reverse('note_detail', kwargs={'note_pk': 1} ), {'photo': img_file }, follow=True)
-                
-                self.assertEqual(200, resp.status_code)
-
-                note_1 = Note.objects.get(pk=1)
-                img_file_name = os.path.basename(img_file_path)
-                expected_uploaded_file_path = os.path.join(self.MEDIA_ROOT, 'user_images', img_file_name)
-
-                self.assertTrue(os.path.exists(expected_uploaded_file_path))
-                self.assertIsNotNone(note_1.photo)
-                self.assertTrue(filecmp.cmp( img_file_path,  expected_uploaded_file_path ))
-
-
-    def test_change_image_for_self_note_expect_existing_deleted(self):
-        
-        first_img_file_path = self.create_temp_image_file()
-        second_img_file_path = self.create_temp_image_file()
-
-        with self.settings(MEDIA_ROOT=self.MEDIA_ROOT):
-        
-            with open(first_img_file_path, 'rb') as first_img_file:
-
-                resp = self.client.post(reverse('note_detail', kwargs={'note_pk': 1} ), {'photo': first_img_file }, follow=True)
-
-                note_1 = Note.objects.get(pk=1)
-
-                first_uploaded_image = note_1.photo.name
-
-                with open(second_img_file_path, 'rb') as second_img_file:
-                    resp = self.client.post(reverse('note_detail', kwargs={'note_pk':1}), {'photo': second_img_file}, follow=True)
-
-                    # first file should not exist 
-                    # second file should exist 
-
-                    note_1 = Note.objects.get(pk=1)
-
-                    second_uploaded_image = note_1.photo.name
-
-                    first_path = os.path.join(self.MEDIA_ROOT, first_uploaded_image)
-                    second_path = os.path.join(self.MEDIA_ROOT, second_uploaded_image)
-
-                    self.assertFalse(os.path.exists(first_path))
-                    self.assertTrue(os.path.exists(second_path))
-
-
-    def test_upload_image_for_someone_else_note(self):
-
-        with self.settings(MEDIA_ROOT=self.MEDIA_ROOT):
-
-            img_file = self.create_temp_image_file()
-            with open(img_file, 'rb') as image:
-                resp = self.client.post(reverse('note_detail', kwargs={'note_pk': 5} ), {'photo': image }, follow=True)
-                self.assertEqual(403, resp.status_code)
-
-                note_5 = Note.objects.get(pk=5)
-                self.assertFalse(note_5.photo)
-
-
-    def test_delete_note_with_image_image_deleted(self):
-        
-        img_file_path = self.create_temp_image_file()
-
-        with self.settings(MEDIA_ROOT=self.MEDIA_ROOT):
-        
-            with open(img_file_path, 'rb') as img_file:
-                resp = self.client.post(reverse('note_detail', kwargs={'note_pk': 1} ), {'photo': img_file }, follow=True)
-                
-                self.assertEqual(200, resp.status_code)
-
-                note_1 = Note.objects.get(pk=1)
-                img_file_name = os.path.basename(img_file_path)
-                
-                uploaded_file_path = os.path.join(self.MEDIA_ROOT, 'user_images', img_file_name)
-
-                note_1 = Note.objects.get(pk=1)
-                note_1.delete()
-
-                self.assertFalse(os.path.exists(uploaded_file_path))
-
-# End Image Tests
-
-    def test_correct_templates_uses_for_notes(self):
-        response = self.client.get(reverse('latest_notes'))
-        self.assertTemplateUsed(response, 'lmn/notes/note_list.html')
-
-        response = self.client.get(reverse('note_detail', kwargs={'note_pk':1}))
-        self.assertTemplateUsed(response, 'lmn/notes/note_detail.html')
-
-        response = self.client.get(reverse('notes_for_show', kwargs={'show_pk':1}))
-        self.assertTemplateUsed(response, 'lmn/notes/note_list.html')
-
-        # Log someone in
-        self.client.force_login(User.objects.first())
-        response = self.client.get(reverse('new_note', kwargs={'show_pk':1}))
-        self.assertTemplateUsed(response, 'lmn/notes/new_note.html')
-'''
 
 
 class TestUserAuthentication(TestCase):
@@ -694,8 +538,17 @@ class TestUserDetails(TestCase):
         self.assertContains(response, 'Edit Profile')
 
     def test_edit_profile_fills_existing_data_into_fields(self):
-        logged_in_user = User.objects.get(pk=2)
+        logged_in_user = User.objects.get(pk=2) # bob
         self.client.force_login(logged_in_user)
         response = self.client.get(reverse('my_user_profile'))
+        regex = '.*Bobby.*Cloud.*Metal.*twisted.*' # Bob's display_name, location, genres, bio
+        response_text = str(response.content)
+        self.assertTrue(re.match(regex, response_text))
 
-        self.assertContains(response, 'Bobby Boy')
+    def test_edit_profile_does_not_fill_other_users_data(self):
+        logged_in_user = User.objects.get(pk=1) # Alice
+        self.client.force_login(logged_in_user)
+        response = self.client.get(reverse('my_user_profile'))
+        regex = '.*Bobby.*Cloud.*Metal.*twisted.*' # Bob's display_name, location, genres, bio
+        response_text = str(response.content)
+        self.assertFalse(re.match(regex, response_text))
