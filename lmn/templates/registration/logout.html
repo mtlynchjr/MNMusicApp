@@ -19,11 +19,11 @@
 {% endif %}
 
 <form method="POST" action="">
-  <table id='login-form'>
+  <table id='logout-form'>
     {% csrf_token %}
     {{ form.as_table }}
   </table>
   <button type="submit">Logout</button>
-  </form>
+</form>
 
 {% endblock %}
