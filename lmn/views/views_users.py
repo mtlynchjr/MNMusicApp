@@ -14,7 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 def user_profile(request, user_pk):
     # Get user profile for any user on the site
     can_edit = False
-    user = User.objects.get(pk=user_pk)
+    user = get_object_or_404(User, pk=user_pk)
     if user == request.user:
         can_edit = True
     
@@ -34,7 +34,7 @@ def my_user_profile(request):
     logged_in_user = request.user
     
     try:
-        user_details = UserDetails(user=logged_in_user)
+        user_details = UserDetails.objects.get(user=logged_in_user)
     except ObjectDoesNotExist:
         user_details = UserDetails(user=logged_in_user, display_name='', location='', favorite_genres='', bio='')
     

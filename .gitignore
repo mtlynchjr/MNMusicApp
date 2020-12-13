@@ -12,3 +12,5 @@ __pycache__
 # ignore virtual enviroments 
 venv
 env
+
+lmnop_credentials.json
