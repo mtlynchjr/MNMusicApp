@@ -2,54 +2,68 @@
 {% load static %}
 {% block content %}
 
-{% if show %}
-<h3 id="note-page-title">{{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date }}</h3>
-{% else %}
+<div class="">
+  {% if show %}
+  <h3 id="note-page-title">{{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date }}</h3>
+ <br>
+  {% else %}
 
-<h2>Latest Notes</h2>
-{% endif %}
+  <h2 class="text-center">Latest Notes</h2>
+  <br>
+  {% endif %}
 
-{% for note in notes %}
+  {% for note in notes %}
+  <div class="row justify-content-center">  
+    <div class="">  
+      <div class="card" style=" background-color: #343a40;" >
+        <div class="card-header" style="background-color: #272c30;">  
+          <p class="show-info">
+            <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
+          </p>
+        </div>
+        <div id="note_{{ note.pk }}" class="card-body text-center">
 
-<p class="show-info">
-  <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
-</p>
+          <p class="note-title"><b>
+            <a href="{% url 'note_detail' note_pk=note.pk %}">{{ note.title }}</a>
+          </p></b>
 
-<div id="note_{{ note.pk }}">
+          <p class='note-text'>{{note.text|truncatechars:100}}</p>
+      
+            {% if note.photo %}
+              <img src="{{ note.photo.url }}" class="card-img-bottom embed-responsive-item" alt="Card image cap">
+            {% else %}
+              
+            {% endif %}
 
-  <p class="note-title"><b>
-    <a href="{% url 'note_detail' note_pk=note.pk %}">{{ note.title }}</a>
-  </p></b>
+          </div>  
+          <div class="card-footer" style="background-color: #272c30;">
+            <p class="note-info">Posted on {{ note.posted_date }} by 
+              <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
+            </p>
+          </div>
+          
+      </div>
 
-  <p class='note-text'>{{note.text|truncatechars:100}}</p>
 
-    <p class="note-info">Posted on {{ note.posted_date }} by 
-      <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
-    </p>
+    </div>
 
-    {% if note.photo %}
-      <img src="{{ note.photo.url }}">
-    {% else %}
-      <p>No photo.</p>
-    {% endif %}
+    
 
-  </div>  
+  </div>
+  <br>
+ {% empty %}
 
-  <hr>
+    <p>No notes.</p>
+    
+    {% endfor %}
 
-{% empty %}
+  <!-- If this is a list of notes for one show,
+  display link to add new note for that show. -->
 
-<p>No notes.</p>
+  {% if show %}
 
-{% endfor %}
-
-<!-- If this is a list of notes for one show,
-display link to add new note for that show. -->
-
-{% if show %}
-
-  <a href="{% url 'new_note' show_pk=show.pk %}">Click here to add your own show notes!</a>
-
-{% endif %}
-
+  <button class="btn btn-info btn-block"> <a href="{% url 'new_note' show_pk=show.pk %}">Click here to add your own show notes!</a>
+  </button>
+  {% endif %}
+</div>
 {% endblock %}
