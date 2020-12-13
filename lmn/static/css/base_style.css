@@ -23,7 +23,8 @@ a {
 }
 
 .badge{
-  max-width: 10px;
+  width:50px;
+  text-anchor: inherit;
 }
 
 .user-image{

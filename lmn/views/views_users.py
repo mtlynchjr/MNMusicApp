@@ -28,11 +28,11 @@ def user_profile(request, user_pk):
         
     note_badge = "Lv 1"
 
-    if usernotes.count() > 100:
+    if usernotes.count() >= 25:
         note_badge = "Lv 4"
-    elif usernotes.count() > 50:
+    elif usernotes.count() >= 15:
         note_badge = "Lv 3"
-    elif usernotes.count() > 10:
+    elif usernotes.count() >= 5:
         note_badge = "Lv 2"
     
     return render(request, 'lmn/users/user_profile.html', { 'user_profile': user , 'notes': usernotes, 'user_details': user_details, 'can_edit': can_edit, 'note_badge':note_badge})
