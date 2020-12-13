@@ -385,6 +385,63 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
 
         self.assertRedirects(response, reverse('note_detail', kwargs={'note_pk': new_note.pk }))
 
+    # Existing search testing templates used as example/inspiration
+
+    def test_notes_search_no_search_results(self):
+        response = self.client.get( reverse('note_list') , {'search_name' : 'great'} )
+        self.assertNotContains(response, 'super')
+        self.assertNotContains(response, 'awesome')
+        self.assertNotContains(response, 'kinda ok')
+        # Check the length of notes list is zero
+        self.assertEqual(len(response.context['notes']), 0)
+
+
+    def test_notes_search_partial_match_search_results(self):
+
+        response = self.client.get(reverse('note_list'), {'search_name' : 'd'})
+        # Responses should be super and kinda ok
+        self.assertContains(response, 'super')
+        self.assertContains(response, 'awesome')
+        self.assertNotContains(response, 'kinda ok')
+        # Check the length of notes list is two
+        self.assertEqual(len(response.context['notes']), 2)
+
+
+    def test_note_search_one_search_result(self):
+
+        response = self.client.get(reverse('note_list'), {'search_name' : 'super'} )
+        self.assertNotContains(response, 'super')
+        self.assertNotContains(response, 'awesome')
+        self.assertContains(response, 'kinda ok')
+        # Check the length of notes list is one
+        self.assertEqual(len(response.context['notes']), 1)
+
+
+    def test_correct_template_used_for_notes(self):
+
+        # Show all
+        response = self.client.get(reverse('note_list'))
+        self.assertTemplateUsed(response, 'lmn/notes/note_list.html')
+
+        # Note detail
+        response = self.client.get(reverse('note_detail', kwargs={'note_pk':1}))
+        self.assertTemplateUsed(response, 'lmn/notes/note_detail.html')
+
+
+    def test_note_detail(self):
+
+        ''' note 1 details displayed in correct template '''
+        # kwargs to fill in parts of url. Not get or post params
+
+        response = self.client.get(reverse('note_detail', kwargs={'note_pk' : 1} ))
+        self.assertContains(response, 'super')
+        self.assertEqual(response.context['note'].title, 'super')
+        self.assertEqual(response.context['note'].pk, 1)
+
+
+    def test_get_note_that_does_not_exist_returns_404(self):
+        response = self.client.get(reverse('note_detail', kwargs={'note_pk' : 10} ))
+        self.assertEqual(response.status_code, 404)
 
 class TestUserProfile(TestCase):
     fixtures = [ 'testing_users', 'testing_artists', 'testing_venues', 'testing_shows', 'testing_notes' ]  # Have to add artists and venues because of foreign key constrains in show

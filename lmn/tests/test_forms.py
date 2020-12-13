@@ -142,5 +142,5 @@ class RegistrationFormTests(TestCase):
 class LoginFormTests(TestCase):
 
     # TODO username not case sensitive - bob and BOB and Bob are the same
-   
+
     pass
