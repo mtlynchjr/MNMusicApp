@@ -10,6 +10,11 @@ from django.forms import ValidationError, MultiWidget
 class DateInput(forms.DateInput):
     input_type='date'
 
+
+class TimeInput(forms.TimeInput):
+    input_type='time'
+
+
 class VenueSearchForm(forms.Form):
     search_name = forms.CharField(label='Venue Name', max_length=200, widget=forms.TextInput(
         attrs={
@@ -28,20 +33,20 @@ class ArtistSearchForm(forms.Form):
     ) )
 
 
+# Create NotesSearchForm class with search field
+class NoteSearchForm(forms.Form):
+    search_name = forms.CharField(label='Enter Note Title', max_length=200)
+
+# Creates NewNoteForm class with fields
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        # reminder: removed 'posted_date' from fields, likely needs additional revision
-        fields = ('title', 'text', 'photo')
+        fields = ('title', 'text', 'posted_date', 'photo')
+        # Date widget for selecting posted date
         widgets = {
             'posted_date' : DateInput()
         }
 
-class DateInput(forms.DateInput):
-    input_type='date'
-
-class TimeInput(forms.TimeInput):
-    input_type='time'
 
 class NewShowForm(forms.ModelForm):
     class Meta:
@@ -51,6 +56,7 @@ class NewShowForm(forms.ModelForm):
             'show_date': DateInput(),
             'show_time': TimeInput()
         }
+
 
 class UserRegistrationForm(UserCreationForm):
 
@@ -110,6 +116,7 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
 
 class UserDetailsForm(forms.ModelForm):
     class Meta:

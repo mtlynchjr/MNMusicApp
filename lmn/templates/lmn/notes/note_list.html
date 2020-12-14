@@ -2,37 +2,52 @@
 {% load static %}
 {% block content %}
 
-<div class="">
-  {% if show %}
-  <h3 id="note-page-title">{{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date }}</h3>
- <br>
-  {% else %}
+<div class="card bg-dark">
+  <!-- Display notes page header -->
+<div class="card-header"  style="background-color: #272c30;">
+    <h2>Notes List</h2>
 
-  <h2 class="text-center">Latest Notes</h2>
-  <br>
-  {% endif %}
+      <form action="{% url 'notes_search' %}" class="form-inline float-sm-right">
+        {{ form }}
+        <!-- Button engages views_notes.notes_search function to search existing -->
+        <button type="submit" class="btn btn-info">Search</button>
+      </form>
+
+    <div class="text-center">
+      {% if search_term %}
+        <h3 id='note-list-title'>Notes matching '{{ search_term }}'
+          <!-- Link clears and redirects to default note_list.html -->
+          <a href="{% url 'artist_list' %}" id='clear_search'>clear</a>
+        </h3>
+      {% else %}
+        <h3 id='artist-list-title'>All notes</h3>
+      {% endif %}
+    </div>
+  </div>
 
   {% for note in notes %}
   <div class="row justify-content-center">  
     <div class="">  
       <div class="card" style=" background-color: #343a40;" >
-        <div class="card-header" style="background-color: #272c30;">  
+        <div class="card-header" style="background-color: #272c30;">
+          <!-- Display show details -->
           <p class="show-info">
             <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
           </p>
         </div>
         <div id="note_{{ note.pk }}" class="card-body text-center">
-
+          <!-- Display note details -->
           <p class="note-title"><b>
             <a href="{% url 'note_detail' note_pk=note.pk %}">{{ note.title }}</a>
           </p></b>
 
           <p class='note-text'>{{note.text|truncatechars:100}}</p>
-      
+
+          <!-- If a photo exists, display it. Otherwise display "No photo." -->
             {% if note.photo %}
               <img src="{{ note.photo.url }}" class="card-img-bottom embed-responsive-item" alt="Card image cap">
             {% else %}
-              
+            <p>No photo.</p>
             {% endif %}
 
           </div>  
@@ -41,29 +56,30 @@
               <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
             </p>
           </div>
-          
-      </div>
 
+      </div>
 
     </div>
 
-    
-
   </div>
+
   <br>
- {% empty %}
+
+  <!-- If no existing notes, display "No notes." -->
+  {% empty %}
 
     <p>No notes.</p>
-    
+
     {% endfor %}
 
-  <!-- If this is a list of notes for one show,
-  display link to add new note for that show. -->
+  <!-- For list of notes for a specific show, display link to add new note for that show. -->
 
   {% if show %}
-
+  <!-- Links to views_notes.new_note to allow users to add notes to existing shows -->
   <button class="btn btn-info btn-block"> <a href="{% url 'new_note' show_pk=show.pk %}">Click here to add your own show notes!</a>
   </button>
   {% endif %}
+
 </div>
+
 {% endblock %}
