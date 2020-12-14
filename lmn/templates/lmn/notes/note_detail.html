@@ -2,46 +2,55 @@
 {% load static %}
 {% block content %}
 
-<h2 id="note-page-title">{{ note.show.artist.name }} at {{ note.show.venue.name }} by 
-    <a href="{% url 'user_profile' user_pk=note.user.pk %}">{{ user.username }}</a>
-</h2>
+<div class="row justify-content-center">
+    <div class="card bg-dark">
+        <div class="card-header" style="background-color: #272c30;">
+            <h4><a href="{% url 'user_profile' user_pk=note.user.pk %}">{{ user.username }}</a></h4>
+            <form action="{% url 'edit_notes' note.pk %}" class="pull-right">
+                
+                <button type="submit" class="btn btn-info pull-right">Edit</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <h4>Artist & Venue:</h4>
+            <h5 id="note-page-title">{{ note.show.artist.name }} at {{ note.show.venue.name }} 
+            </h5>
 
-<h2>Note</h2>
-<p id="note-title"><b>{{ note.title }}</b></p>
-<p id="note-text">{{ note.text }}</p>
+            <h4>Note:</h4>
+            <h5 id="note-title"><b>{{ note.title }}</b></h5>
+            <p id="note-text">{{ note.text }}</p>
 
-<h2>Posted Date</h2>
-<p id="note-posted-date">{{ note.posted_date }}</p>
+            <h4>Posted Date</h4>
+            <p id="note-posted-date">{{ note.posted_date }}</p>
 
-<h2>Photo</h2>
-{% if note.photo %}
-<img src="{{ note.photo.url }}">
-{% else %}
-<p>No photo.</p>
-{% endif %}
+            <h4>Photo:</h4>
+            {% if note.photo %}
+            <img src="{{ note.photo.url }}" class="card-img-bottom embed-responsive-item" alt="Card image cap">
+            {% else %}
+            <p>No photo.</p>
+            {% endif %}
 
-{% if messages %}
-<div class="messages">
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
-</div>
-{% endif %} 
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %} 
+        </div>
+        <div class="card-footer" style="background-color: #272c30;">
+            <form action="{% url 'delete_notes' note.pk %}" method="POST" class="form-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button> 
 
-<!-- <script src="{% static 'js/confirm_delete.js' %}"></script> # To Appear Below Alicia's Delete Button -->
+            </form>
 
-<form action="{% url 'delete_notes' note.pk %}" method="POST">
-   {% csrf_token %}
-   <button type="submit" class="delete">Delete</button> 
-
-</form>
-
-<script src="{% static 'js/confirm_delete.js '%}"></script>
+            <script src="{% static 'js/confirm_delete.js '%}"></script>
 
 
-<form action="{% url 'edit_notes' note.pk %}">
-    
-    <button type="submit" class="edit">Edit</button>
-</form>
+        
+        </div>
+    </div>
+</div>    
 
 {% endblock %}

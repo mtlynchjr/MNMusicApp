@@ -14,7 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 def user_profile(request, user_pk):
     # Get user profile for any user on the site
     can_edit = False
-    user = User.objects.get(pk=user_pk)
+    user = get_object_or_404(User, pk=user_pk)
     if user == request.user:
         can_edit = True
     
@@ -25,7 +25,17 @@ def user_profile(request, user_pk):
 
     
     usernotes = Note.objects.filter(user=user.pk).order_by('-posted_date')
-    return render(request, 'lmn/users/user_profile.html', { 'user_profile': user , 'notes': usernotes, 'user_details': user_details, 'can_edit': can_edit})
+        
+    note_badge = "Lv 1"
+
+    if usernotes.count() >= 25:
+        note_badge = "Lv 4"
+    elif usernotes.count() >= 15:
+        note_badge = "Lv 3"
+    elif usernotes.count() >= 5:
+        note_badge = "Lv 2"
+    
+    return render(request, 'lmn/users/user_profile.html', { 'user_profile': user , 'notes': usernotes, 'user_details': user_details, 'can_edit': can_edit, 'note_badge':note_badge})
     
     
 @login_required
@@ -34,7 +44,7 @@ def my_user_profile(request):
     logged_in_user = request.user
     
     try:
-        user_details = UserDetails(user=logged_in_user)
+        user_details = UserDetails.objects.get(user=logged_in_user)
     except ObjectDoesNotExist:
         user_details = UserDetails(user=logged_in_user, display_name='', location='', favorite_genres='', bio='')
     

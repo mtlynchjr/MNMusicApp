@@ -2,16 +2,15 @@
 
 {% block content %}
 
-{ % for message in messages %}
-
-{{ message}}
-
-
-
+{% for message in messages %}
+    {{message}}
 {% endfor %}
 
-<P>Welcome to Live Music Notes, LMN</p>
-<P>Soon to be LMNOP</P>
-<P>Use the links above to navigate</p>
+<br><br>
+<div id="home">
+    <img src="static/css/img/logo.svg" height="90px" alt="">
+    <h1>Minnesota Music Notes</h1>
+    <P>Use the links above to navigate</p>
+</div>
 
 {% endblock %}

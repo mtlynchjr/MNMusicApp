@@ -1,7 +1,8 @@
 from django.test import TestCase
 
 from django.contrib.auth.models import User
-from lmn.forms import NewNoteForm, UserRegistrationForm
+from lmn.forms import NewNoteForm, UserRegistrationForm, UserDetailsForm
+from django.db import IntegrityError
 import string
 
 # Test that forms are validating correctly, and don't accept invalid data
@@ -104,8 +105,6 @@ class RegistrationFormTests(TestCase):
         form = UserRegistrationForm(form_data)
         self.assertFalse(form.is_valid())
 
-
-    # TODO make this test pass!
     def test_register_user_with_username_already_in_db_case_insensitive_fails(self):
 
         # Create a user with username bob
@@ -121,7 +120,7 @@ class RegistrationFormTests(TestCase):
             self.assertFalse(form.is_valid())
 
 
-    # TODO make this test pass!
+
     def test_register_user_with_email_already_in_db_case_insensitive_fails(self):
 
         # Create a user with username bob
@@ -137,10 +136,22 @@ class RegistrationFormTests(TestCase):
             self.assertFalse(form.is_valid())
 
 
+class UserDetailsFormTests(TestCase):
 
+    def test_user_details_has_no_user_fails(self):
+       
+        form_data={'display_name':'Bobby', 'location':'St Cloud', 'favorite_genres':'Metal', 'bio':'Welcome to my twisted mind'}
+        form = UserDetailsForm(form_data)
+        
+        with self.assertRaises(IntegrityError):  #form cannot save without user
+            form.save()
 
-class LoginFormTests(TestCase):
+    def test_user_details_empty_data_fails(self):
+        form_data={'display_name':'', 'location':'', 'favorite_genres':'', 'bio':''}
+        form = UserDetailsForm(form_data)
+        self.assertFalse(form.is_valid()) # is_valid method does not allow empty strings
 
-    # TODO username not case sensitive - bob and BOB and Bob are the same
-   
-    pass
+    def test_user_details_valid_data(self):
+        form_data={'display_name':'Bobby', 'location':'St Cloud', 'favorite_genres':'Metal', 'bio':'Welcome to my twisted mind'}
+        form = UserDetailsForm(form_data)
+        self.assertTrue(form.is_valid())
