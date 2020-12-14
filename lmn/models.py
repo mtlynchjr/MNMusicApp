@@ -62,7 +62,8 @@ class Note(models.Model):
     user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False)
     text = models.TextField(max_length=1000, blank=False)
-    rating = models.PositiveIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], blank=True, null=True)
+    # ValueValidators are not constraining integer choices to 1-5
+    rating = models.PositiveIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], blank=False, null=True)
     posted_date = models.DateTimeField(blank=False)
     photo = models.ImageField(upload_to='user_images/', blank=True, null=True)
 
