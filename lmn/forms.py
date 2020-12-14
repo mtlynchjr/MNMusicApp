@@ -32,10 +32,14 @@ class ArtistSearchForm(forms.Form):
         }
     ) )
 
-
 # Create NotesSearchForm class with search field
 class NoteSearchForm(forms.Form):
-    search_name = forms.CharField(label='Enter Note Title', max_length=200)
+    search_name = forms.CharField(label='Note Title', max_length=200, widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Search Notes...'
+        }
+    ) )
 
 # Creates NewNoteForm class with fields
 class NewNoteForm(forms.ModelForm):
