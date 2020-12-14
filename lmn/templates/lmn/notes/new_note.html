@@ -10,7 +10,7 @@
       <h3>New note for {{ show.artist.name }} at {{ show.venue.name }} on {{ show.show_date}}</h3>
     </div>
     <div class="card-body">
-      <!-- NewNote form from views_notes.new_note -->
+
       <form method="POST" action="{% url 'new_note' show_pk=show.pk %}" enctype="multipart/form-data">
         <div>
           {% csrf_token %}
