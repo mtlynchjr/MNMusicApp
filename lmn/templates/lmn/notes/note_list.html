@@ -4,7 +4,7 @@
 
 <div class="card bg-dark">
   <!-- Display notes page header -->
-<div class="card-header"  style="background-color: #272c30;">
+  <div class="card-header"  style="background-color: #272c30;">
     <h2>Notes List</h2>
 
       <form action="{% url 'notes_search' %}" class="form-inline float-sm-right">
@@ -42,6 +42,8 @@
           </p></b>
 
           <p class='note-text'>{{note.text|truncatechars:100}}</p>
+
+          <p class="note-rating">{{ note.rating }}</p>
 
           <!-- If a photo exists, display it. Otherwise display "No photo." -->
             {% if note.photo %}
