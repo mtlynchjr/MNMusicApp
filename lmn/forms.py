@@ -1,6 +1,5 @@
 from django import forms
 from .models import Note, Show, UserDetails
-from .models import Note, Show
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -45,7 +44,7 @@ class NoteSearchForm(forms.Form):
 class NewNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ('title', 'text', 'posted_date', 'photo')
+        fields = ('title', 'text', 'rating', 'posted_date', 'photo')
         # Date widget for selecting posted date
         widgets = {
             'posted_date' : DateInput()
