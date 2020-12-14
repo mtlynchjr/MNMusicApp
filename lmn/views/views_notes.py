@@ -6,7 +6,7 @@ from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistra
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from django.contrib import messages
 
 
@@ -31,7 +31,7 @@ def new_note(request, show_pk):
         form = NewNoteForm()
 
     # Returns new_note.html page with form
-    return render(request, 'lmn/notes/new_note.html' , { 'form': form , 'show': show })
+    return render(request, 'lmn/notes/new_note.html' , { 'form': form ,  'show': show })
 
 @login_required
 def notes_search(request):
@@ -132,4 +132,3 @@ def edit_notes(request, note_pk):
         
         else:
             return render(request, 'lmn/notes/note_edit.html' ,  { 'form': form})
-    
