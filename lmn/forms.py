@@ -37,7 +37,7 @@ class NoteSearchForm(forms.Form):
     search_name = forms.CharField(label='Note Title', max_length=200, widget=forms.TextInput(
         attrs={
             'class': 'form-control',
-            'placeholder': 'Search Notes...'
+            'placeholder': 'Search Notes by Title...'
         }
     ) )
 

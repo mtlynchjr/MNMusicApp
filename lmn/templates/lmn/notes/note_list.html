@@ -8,7 +8,7 @@
     <h2>Notes List</h2>
 
       <form action="{% url 'notes_search' %}" class="form-inline float-sm-right">
-        {{ form }}
+        {{ form.search_name }}
         <!-- Button engages views_notes.notes_search function to search existing -->
         <button type="submit" class="btn btn-info">Search</button>
       </form>
