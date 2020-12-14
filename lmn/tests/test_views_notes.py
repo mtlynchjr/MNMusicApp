@@ -26,13 +26,13 @@ class TestDeleteNotes(TestCase):
         note_1 = Note.objects.filter(pk=1).first() # Select note 1 with primary key #1 first
         self.assertIsNone(note_1)   # note is deleted
 
-    # def test_delete_someone_else_notes_not_auth(self):
+    def test_delete_someone_else_notes_not_auth(self):
 
-    #     """"Testing database to check unauthorized user with primary key #5 and status code. If they matched,
-    #      database prevents the user from cancelling note and display message. """
+        """"Testing database to check unauthorized user with primary key #5 and status code. If they matched,
+         database prevents the user from cancelling note and display message. """
 
-    #     response = self.client.post(reverse('delete_notes',  args=(5,)), follow=True)
-    #     self.assertEqual(404, response.status_code)# Compare status code 404 with primary key #5
-    #     note_5 = Note.objects.get(pk=5) #fetch for ID# 5
-    #     message = "Forbidden. You don't have permissions to access this resource. Please exit." # error message in case if test case got failed
-    #     self.assertIsNotNone(note_5, message) # assertIsNotNone() to check that if input value is not none
+        response = self.client.post(reverse('delete_notes',  args=(5,)), follow=True)
+        self.assertEqual(404, response.status_code)# Compare status code 404 with primary key #5
+        note_5 = Note.objects.get(pk=5) #fetch for ID# 5
+        message = "Forbidden. You don't have permissions to access this resource. Please exit." # error message in case if test case got failed
+        self.assertIsNotNone(note_5, message) # assertIsNotNone() to check that if input value is not none
