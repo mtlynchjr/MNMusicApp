@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.core.exceptions import ValidationError
 
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
+
 import datetime
 from datetime import timedelta
 
@@ -59,6 +62,7 @@ class Note(models.Model):
     user = models.ForeignKey('auth.User', blank=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False)
     text = models.TextField(max_length=1000, blank=False)
+    rating = models.PositiveIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], blank=True, null=True)
     posted_date = models.DateTimeField(blank=False)
     photo = models.ImageField(upload_to='user_images/', blank=True, null=True)
 
@@ -99,4 +103,3 @@ class UserDetails(models.Model):
 
     def __str__(self):
         return f'User: {self.user}; Display name: {self.display_name}; Location: {self.location}; Favorite genres: {self.favorite_genres}; Bio: {self.bio}'
-
