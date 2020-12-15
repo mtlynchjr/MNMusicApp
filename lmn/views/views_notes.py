@@ -47,7 +47,6 @@ def notes_search(request):
     else:
         # Otherwise display all existing notes for all shows, ordered by posted date
         notes = Note.objects.all().order_by('-posted_date')
-      
 
     # Returns note_list.html page with all search-specific notes
     return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'form': form, 'search_term': search_name })
