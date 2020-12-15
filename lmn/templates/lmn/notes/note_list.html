@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<div class="card bg-dark">
+<div >
   <!-- Display notes page header -->
   <div class="card-header"  style="background-color: #272c30;">
     <h2>Notes List</h2>
@@ -24,39 +24,58 @@
       {% endif %}
     </div>
   </div>
-
+  <br> <br>
   {% for note in notes %}
   <div class="row justify-content-center">  
     <div class="">  
       <div class="card" style=" background-color: #343a40;" >
         <div class="card-header" style="background-color: #272c30;">
-          <!-- Display show details -->
-          <p class="show-info">
-            <a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
-          </p>
-        </div>
-        <div id="note_{{ note.pk }}" class="card-body text-center">
-          <!-- Display note details -->
-          <p class="note-title"><b>
+         <!-- Display note details -->
+          <h4 class="note-title"><b>
             <a href="{% url 'note_detail' note_pk=note.pk %}">{{ note.title }}</a>
-          </p></b>
-
-          <p class='note-text'>{{note.text|truncatechars:100}}</p>
-
-          <p class="note-rating">{{ note.rating }}</p>
-
+          </h4></b>
+        </div>
+        <div id="note_{{ note.pk }}" class="">
           <!-- If a photo exists, display it. Otherwise display "No photo." -->
             {% if note.photo %}
               <img src="{{ note.photo.url }}" class="card-img-bottom embed-responsive-item" alt="Card image cap">
-            {% else %}
-            <p>No photo.</p>
-            {% endif %}
+            <hr>
+              {% else %}
+            
+            {% endif %}       
+
+          <div class="row card-body" style="margin-top: 0%; padding-top: 0%; padding-bottom: 2%;">
+            <div class="col-xs-6">
+              <h5>
+                <a class='user text-left' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}: </a>
+              </h5>
+            </div>
+            <div class="col-xs-6">
+              <p class='note-text'>{{note.text|truncatechars:100}}</p>
+            </div>
+          
+          </div>
+       
+          <div class="row card-body" style="margin-top: 0%; padding-top: 0%; padding-bottom: 2%;">
+            <div class="col-xs-6">
+                  <!-- Display show details -->
+          <p class="show-info">
+           @<a href="{% url 'notes_for_show' show_pk=note.show.pk %}">{{ note.show.artist.name }} at {{ note.show.venue.name }} on {{ note.show.show_date }}</a>
+          </p>
+            </div>
+          
+          </div>
+
+
+
 
           </div>  
-          <div class="card-footer" style="background-color: #272c30;">
-            <p class="note-info">Posted on {{ note.posted_date }} by 
-              <a class='user' href="{% url 'user_profile' user_pk=note.user.pk %}">{{ note.user.username }}</a>
+          <div class="card-footer " style="background-color: #272c30;">
+            <p class="note-rating">User Rating: <b>{{ note.rating }}</b>
             </p>
+            <p class="note-info">Posted on {{ note.posted_date.date }}
+            </p>
+
           </div>
 
       </div>
