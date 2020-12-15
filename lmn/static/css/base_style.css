@@ -2,7 +2,8 @@ body {
   font-family: monospace;
   background: #444d4d;
   color: white;
-  background-image: url(img/amps2.jpg);
+  /* padding: 20px; */
+  background-image: url(https://storage.googleapis.com/final-lmnop.appspot.com/static/css/img/amps2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   margin: 0;
