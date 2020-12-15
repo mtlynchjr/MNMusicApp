@@ -2,6 +2,27 @@
 
 ## Live Music Notes, Opinions, Photographs
 
+## Minnesota Music Notes!
+
+Site Examples:
+
+Homepage:
+
+![](lmn/static/img/readme/desktop-home.png)
+
+Venue List:
+
+![](lmn/static/img/readme/desktop-venues.png)
+
+Post Example:
+
+![](lmn/static/img/readme/desktop-list.png)
+
+Works on mobile too!
+
+![](lmn/static/img/readme/mobile.png)
+
+
 
 ### To install
 
