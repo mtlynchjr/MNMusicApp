@@ -83,18 +83,18 @@ WSGI_APPLICATION = 'lmnop_project.wsgi.application'
 
 DATABASES = {
     'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'lmnop-database',
-            'USER' : 'datauser',
-            # 'PASSWORD' : os.getenv['DATAUSER_PW'],
-            'PASSWORD' : 'Hugh!Mungus37',
-            'HOST' : '/cloudsql/final-lmnop:us-central1:lmnopsql-db',
-            'PORT' : '5432',
-        },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lmnop-database',
+        'USER' : 'datauser',
+        'PASSWORD' : 'TryThis67',
+        'HOST' : '/cloudsql/final-lmnop:us-central1:lmnopsql-db',
+        'PORT' : '5432',
+    }
 }
 
 if not os.getenv('GAE_INSTANCE'):
     DATABASES ['default']['HOST'] = '127.0.0.1'
+    # For deployment: Commented out the 6 lines below to get Cloud SQL Proxy to connect and create tables in GCP DB
     DATABASES = {
         'default' :{
             'ENGINE': 'django.db.backends.sqlite3',
@@ -159,6 +159,8 @@ else:
     GS_BUCKET_NAME = 'final-lmnop-uploads'
     MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
 
+    from google.oauth2 import service_account
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file('final-lmnop-credentials.json')
 
 # Where to send user after successful login, and logout, if no other page is provided.
 LOGIN_REDIRECT_URL = 'my_user_profile'

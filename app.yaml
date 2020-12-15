@@ -1,2 +1,15 @@
 runtime: python37
 entrypoint: gunicorn -b :$PORT lmnop_project.wsgi
+
+handlers:
+- url: /static
+  static_dir: www/static/
+
+- url: /.*
+  script: auto
+
+env_variables:
+  DATAUSER_PW: TryThis67
+
+beta_settings:
+  cloud_sql_instances: final-lmnop:us-central1:lmnopsql-db
