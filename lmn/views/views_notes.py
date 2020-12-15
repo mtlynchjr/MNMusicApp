@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden, HttpResponse
 from django.contrib import messages
 
+from django.core.paginator import Paginator
 
 @login_required
 def new_note(request, show_pk):
@@ -42,9 +43,11 @@ def notes_search(request):
     if search_name:
         # If serach term matches an existing note(s), display all matching notes ordered by search term
         notes = Note.objects.filter(title__icontains=search_name).order_by('-posted_date')
+
     else:
         # Otherwise display all existing notes for all shows, ordered by posted date
         notes = Note.objects.all().order_by('-posted_date')
+      
 
     # Returns note_list.html page with all search-specific notes
     return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'form': form, 'search_term': search_name })
@@ -55,7 +58,18 @@ def latest_notes(request):
     # Allows users to search for a specific note from all existing notes using code in views_notes.notes_search function
     form = NoteSearchForm()
     notes = Note.objects.all().order_by('-posted_date') # All existing notes for all shows, ordered by posted date
+    paginator = Paginator(notes,5)
 
+        #it will default grab page 1
+    try:
+        page = int(request.GET.get('page', '1'))
+    except:
+        page = 1
+
+    try:
+        notes = paginator.page(page)
+    except:
+        notes = paginator.page(paginator.num_pages)
     # Returns note_list.html page with all existing notes, ordered by posted date
     return render(request, 'lmn/notes/note_list.html', { 'notes': notes, 'form': form })
 

@@ -6,7 +6,7 @@ from ..forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistra
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-
+from django.core.paginator import Paginator
 from django.utils import timezone
 
 
@@ -25,9 +25,33 @@ def artist_list(request):
     search_name = request.GET.get('search_name')
     if search_name:
         artists = Artist.objects.filter(name__icontains=search_name).order_by('name')
+        paginator = Paginator(artists,5)
+
+        #it will default grab page 1
+        try:
+            page = int(request.GET.get('page', '1'))
+        except:
+            page = 1
+
+        try:
+            artists = paginator.page(page)
+        except:
+            artists = paginator.page(paginator.num_pages)
     else:
         artists = Artist.objects.all().order_by('name')
+        paginator = Paginator(artists,5)
 
+        #it will default grab page 1
+        try:
+            page = int(request.GET.get('page', '1'))
+        except:
+            page = 1
+
+        try:
+            artists = paginator.page(page)
+        except:
+            artists = paginator.page(paginator.num_pages)
+            
     return render(request, 'lmn/artists/artist_list.html', { 'artists': artists, 'form': form, 'search_term': search_name })
 
 
