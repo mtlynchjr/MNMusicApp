@@ -1,3 +1,7 @@
+import tempfile
+import filecmp
+import os 
+
 from django.test import TestCase, Client
 
 from django.urls import reverse
@@ -10,9 +14,7 @@ from django.contrib.auth.models import User
 import re, datetime
 from datetime import timezone
 
-import tempfile # Imported for Image Tests
-from PIL import Image # Imported for Image Tests
-import os
+from PIL import Image
 
 # TODO verify correct templates are rendered.
 
@@ -351,39 +353,6 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
         self.assertEqual(Note.objects.count(), initial_note_count)   # 2 test notes provided in fixture, should still be 2
 
 
-    # Could not get this one to go. I'm thinking maybe it's a form/field discrepancy between fixtures and actual?
-    # def test_add_note_database_updated_correctly(self):
-
-    #     initial_note_count = Note.objects.count()
-
-    #     new_note_url = reverse('new_note', kwargs={'show_pk':1})
-
-    #     response = self.client.post(new_note_url, {'title':'good', 'text':'pretty pretty pretty good', 'rating':3, 'photo':'' }, follow=True)
-
-    #     # Verify note is in database
-    #     new_note_query = Note.objects.filter(title='good', text='pretty pretty pretty good', rating=3, photo='')
-    #     self.assertEqual(new_note_query.count(), 1)
-
-    #     # And one more note in DB than before
-    #     self.assertEqual(Note.objects.count(), initial_note_count + 1)
-
-    #     # Date correct?
-    #     now = datetime.datetime.now()
-    #     posted_date = new_note_query.first().posted_date
-    #     self.assertEqual(now.date(), posted_date.date())
-
-    # Connected/paired with above function
-    # def test_redirect_to_note_detail_after_save(self):
-
-    #     initial_note_count = Note.objects.count()
-
-    #     new_note_url = reverse('new_note', kwargs={'show_pk':1})
-    #     response = self.client.post(new_note_url, {'title':'good', 'text':'pretty pretty pretty good', 'rating':3, 'photo':'' }, follow=True)
-    #     new_note = Note.objects.filter(title='good', text='pretty pretty pretty good', rating=3, photo='').first()
-
-    #     self.assertRedirects(response, reverse('note_detail', kwargs={'note_pk': new_note.pk }))
-
-
 class TestUserProfile(TestCase):
     fixtures = [ 'testing_users', 'testing_artists', 'testing_venues', 'testing_shows', 'testing_notes' ]  # Have to add artists and venues because of foreign key constrains in show
 
@@ -418,13 +387,13 @@ class TestUserProfile(TestCase):
         response = self.client.get(reverse('user_profile', kwargs={'user_pk':2}))
         self.assertContains(response, 'bob\'s notes')
 
-
+    # Existing failing/erroring code - Commented out to avoid confusion while I ran my tests
     # def test_correct_user_name_shown_different_profiles(self):
     #     logged_in_user = User.objects.get(pk=2)
     #     self.client.force_login(logged_in_user)  # bob
     #     response = self.client.get(reverse('user_profile', kwargs={'user_pk':2}))
     #     self.assertContains(response, 'You are logged in, <a href="/user/profile/2/">bob</a>.')
-        
+
     #     # Same message on another user's profile. Should still see logged in message 
     #     # for currently logged in user, in this case, bob
     #     response = self.client.get(reverse('user_profile', kwargs={'user_pk':3}))
@@ -481,7 +450,7 @@ class TestNotes(TestCase):
         self.assertNotContains(response, 'ok')
         self.assertNotContains(response, 'awesome')
         self.assertNotContains(response, 'super')
-        # Check the length of notes list is 0
+        # Notes list length should be 0
         self.assertEqual(len(response.context['notes']), 0)
 
 
@@ -492,7 +461,7 @@ class TestNotes(TestCase):
         self.assertContains(response, 'ok')
         self.assertContains(response, 'awesome')
         self.assertNotContains(response, 'super')
-        # Check the length of notes list is 2
+        # Notes list length should be 2
         self.assertEqual(len(response.context['notes']), 2)
 
 
@@ -502,7 +471,7 @@ class TestNotes(TestCase):
         self.assertNotContains(response, 'ok')
         self.assertNotContains(response, 'awesome')
         self.assertContains(response, 'super')
-        # Check the length of artists list is 1
+        # Notes list length should be 1
         self.assertEqual(len(response.context['notes']), 1)
 
 
@@ -516,7 +485,7 @@ class TestNotes(TestCase):
         response = self.client.get(reverse('notes_search'), {'search_name' : 'super'} )
         self.assertTemplateUsed(response, 'lmn/notes/note_list.html')
 
-        # Search no matches
+        # Search with no matches
         response = self.client.get(reverse('notes_search'), {'search_name' : 'fabulous'})
         self.assertTemplateUsed(response, 'lmn/notes/note_list.html')
 
@@ -528,7 +497,7 @@ class TestNotes(TestCase):
     def test_note_detail(self):
 
         ''' Note 1 details displayed in correct template '''
-        ''' kwargs to fill in parts of url. Not get or post params '''
+        ''' kwargs to fill in parts of url '''
 
         response = self.client.get(reverse('note_detail', kwargs={'note_pk' : 1} ))
         self.assertContains(response, 'ok')
@@ -538,6 +507,7 @@ class TestNotes(TestCase):
     def test_get_note_that_does_not_exist_returns_404(self):
         response = self.client.get(reverse('note_detail', kwargs={'note_pk' : 99} ))
         self.assertEqual(response.status_code, 404)
+
 
 class TestShow(TestCase):
 
