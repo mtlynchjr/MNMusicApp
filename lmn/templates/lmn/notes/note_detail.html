@@ -12,17 +12,24 @@
             </form>
         </div>
         <div class="card-body">
+            <!-- Display show details -->
             <h4>Artist & Venue:</h4>
             <h5 id="note-page-title">{{ note.show.artist.name }} at {{ note.show.venue.name }} 
             </h5>
 
+            <!-- Display note details -->
             <h4>Note:</h4>
             <h5 id="note-title"><b>{{ note.title }}</b></h5>
             <p id="note-text">{{ note.text }}</p>
 
+            <!-- Display rating -->
+            <h4>Rating:</h4>
+            <h5 id="note-rating"><b>{{ note.rating }}</b></h5>
+
             <h4>Posted Date</h4>
             <p id="note-posted-date">{{ note.posted_date }}</p>
 
+            <!-- If a photo exists, display it. Otherwise display "No photo." -->
             <h4>Photo:</h4>
             {% if note.photo %}
             <img src="{{ note.photo.url }}" class="card-img-bottom embed-responsive-item" alt="Card image cap">
@@ -30,6 +37,7 @@
             <p>No photo.</p>
             {% endif %}
 
+            <!-- Display any/all pertinent messages to user -->
             {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -46,7 +54,6 @@
             </form>
 
             <script src="{% static 'js/confirm_delete.js '%}"></script>
-
 
         
         </div>
