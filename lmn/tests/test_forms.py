@@ -50,12 +50,6 @@ class NewNoteFormTests(TestCase):
         self.assertFalse(form.is_valid())
 
 
-    # def test_ok_title_and_length_is_valid(self):
-    #     form_data = { "title": "blah blah", "text" : "blah, blah, blah."}
-    #     form = NewNoteForm(form_data)
-    #     self.assertTrue(form.is_valid())
-
-
 class RegistrationFormTests(TestCase):
 
     # missing fields
@@ -139,7 +133,7 @@ class RegistrationFormTests(TestCase):
 class UserDetailsFormTests(TestCase):
 
     def test_user_details_has_no_user_fails(self):
-       
+
         form_data={'display_name':'Bobby', 'location':'St Cloud', 'favorite_genres':'Metal', 'bio':'Welcome to my twisted mind'}
         form = UserDetailsForm(form_data)
         
