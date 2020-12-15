@@ -1,0 +1,77 @@
+Time Tracker - Michael Lynch
+****************************
+
+Tracking
+********
+
+Week of 11/09:
+Met with group in class. Reviewed and discussed project goals, parameters, and requirements. Continued to complete Lab 10.
+
+Week of 11/16:
+Met with group via Zoom. Confirmed project understanding. Discussed questions/concerns. Reviewed and assigned priority issues. Began work on priority issues. Began online research.
+
+Week of 11/23:
+Thanksgiving Holiday week. Met with group in class. Agreed to continue to work on priority issues and remain available to one another via Slack and Zoom.
+
+Week of 11/30:
+Met with group in class. Assigned non-priority issues. GitHub began to populate with branches and pull requests for group collaboration, review, and approval. Testing was agreed to be a major challenge for most group members.
+
+Week of 12/07:
+Met with Alicia to coordinate/specify Notes obligations and discuss similar challenges/issues. Met with group via Zoom to discuss group and individual progress. Met with group in class and discussed project status and coordinate efforts heading into our final week.
+
+Week of 12/14:
+A week of intensive coding and collaboration. Much interaction via Slack and Zoom. Met with Alicia to help complete Delete issues and attempt to resolve photo Edit issue. Met with group on both Sunday and Monday to coordinate, assist, and plan for project completion.
+
+Connectivity
+************
+
+Our group communicated frequently via:
+Slack
+Zoom
+GitHub
+Outlook
+
+Meetings
+********
+
+11/10-12/08 weekly with Group in class
+11/15 11a-12p with Group via Zoom
+12/05 9a-10a with Alicia via Zoom
+12/06 11a-12p with Group via Zoom
+12/12 10a-11a with Alicia via Zoom
+12/13 11a-1p with Group via Zoom
+12/14 5:30p-8p with Group via Zoom
+
+GitHub Engagement
+*****************
+
+I pushed ten git branches to our group's repository, created eight pull requests for peer review and approval, and I completed the following three issues: 
+# 4 Allow user to upload photograph for note
+# 9 Users should be able to search their own notes
+# 12 User can save a rating for the shows they create notes for
+
+Resources and References
+*************************
+
+I reviewed the powerpoints, rewatched the videos, and referenced the GitHub repositories for lab 9 and 10 several times:
+
+https://github.com/claraj/django_travel_wishlist
+https://github.com/claraj/wishlist_with_uploads
+
+I also did extensive online research; including but not limited to: 
+
+https://www.python.org/dev/peps/pep-0008/
+https://www.reddit.com/r/Python/
+https://medium.com/better-programming/20-vs-code-shortcuts-for-fast-coding-cheatsheet-10b0e72fd5d
+https://www.youtube.com/watch?v=tm6ZRdzDPME
+https://learndjango.com/tutorials/django-search-tutorial
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms
+https://www.youtube.com/watch?v=-4_esavnIqo
+https://www.youtube.com/watch?v=G-Rct7Na0UQ
+https://www.youtube.com/watch?v=0x0pWrm2nKI
+https://www.youtube.com/watch?v=LmYDXgYK1so
+https://www.codegrepper.com/code-examples/delphi/dropdown+django
+https://stackoverflow.com/questions/62839945/how-to-add-display-dropdown-fields-in-django
+https://www.geeksforgeeks.org/integerfield-django-models/
+https://www.geeksforgeeks.org/positiveintegerfield-django-models/
+https://django.readthedocs.io/en/stable/ref/validators.html
