@@ -351,6 +351,7 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
         self.assertEqual(Note.objects.count(), initial_note_count)   # 2 test notes provided in fixture, should still be 2
 
 
+    # Could not get this one to go. I'm thinking maybe it's a form/field discrepancy between fixtures and actual?
     # def test_add_note_database_updated_correctly(self):
 
     #     initial_note_count = Note.objects.count()
@@ -371,7 +372,7 @@ class TestAddNotesWhenUserLoggedIn(TestCase):
     #     posted_date = new_note_query.first().posted_date
     #     self.assertEqual(now.date(), posted_date.date())
 
-
+    # Connected/paired with above function
     # def test_redirect_to_note_detail_after_save(self):
 
     #     initial_note_count = Note.objects.count()
