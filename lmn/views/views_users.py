@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib import messages
 
 from ..models import Venue, Artist, Note, Show, UserDetails
@@ -83,3 +83,10 @@ def register(request):
 
     form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form} )
+
+def u_logout(request):
+    if request.method == "POST":
+        logout(request)
+
+        messages.add_message(request, messages.INFO, 'User is logged out successfully and goodbye my friend.')
+        return redirect('homepage', {'messages': messages})
